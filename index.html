@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wassila Mestiri - Contemporary Photography</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.jpeg" alt="Wassila Mestiri Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#albums">Albums</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Wassila Mestiri</h1>
+            <p>Contemporary Photography & Visual Storytelling</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-outline">View Projects</a>
+                <a href="#contact" class="btn">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About</h2>
+                <p class="subtitle">Capturing authentic moments through a unique lens</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="featured">Welcome to my portfolio. I am Wassila Mestiri, a contemporary photographer focusing on capturing life's authentic moments and creating visual narratives that speak to the soul.</p>
+                    <p>Through my work, I seek to explore the boundaries between reality and artistic expression, creating images that evoke emotion and tell stories. Each photograph is a careful composition of light, moment, and emotion.</p>
+                    <p>My photography journey has taken me through diverse landscapes and cultures, always searching for that perfect blend of authenticity and aesthetic.</p>
+                </div>
+                <div class="about-gallery">
+                    <!-- About images will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quote">
+        <div class="container">
+            <blockquote>
+                "Photography is a way of feeling, of touching, of loving. What you have caught on film is captured forever... it remembers little things, long after you have forgotten everything."
+                <cite>— Aaron Siskind</cite>
+            </blockquote>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2>My Projects</h2>
+                <p class="subtitle">A collection of my visual explorations</p>
+            </div>
+            <div class="projects-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="kerkennah">Kerkennah</button>
+                <button class="filter-btn" data-filter="ziyara">Al Ziyara</button>
+                <button class="filter-btn" data-filter="jmc">JMC</button>
+            </div>
+            <div class="projects-gallery">
+                <!-- Project images will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section class="full-width-feature">
+        <div class="feature-content">
+            <h2>Visual Storytelling</h2>
+            <p>Every image captures a moment in time, a story waiting to be told</p>
+            <a href="#albums" class="btn">View All Albums</a>
+        </div>
+    </section>
+
+    <section id="albums" class="albums">
+        <div class="container">
+            <div class="section-header">
+                <h2>Albums</h2>
+                <p class="subtitle">Collections of moments and memories</p>
+            </div>
+            <div class="albums-grid">
+                <!-- Album thumbnails will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact</h2>
+                <p class="subtitle">Let's create something beautiful together</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Interested in collaborations or have questions about my work? I'd love to hear from you.</p>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>contact@wassila-mestiri.com</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+123 456 7890</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.jpeg" alt="Wassila Mestiri Logo">
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#albums">Albums</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2023 Wassila Mestiri. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Image viewer modal -->
+    <div class="modal" id="imageModal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage">
+            <div class="caption"></div>
+        </div>
+        <button class="modal-nav prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="modal-nav next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
