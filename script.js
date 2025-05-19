@@ -20,31 +20,71 @@ const albumFolders = ['traversée', 'kairouan', 'inde', 'bab_bhar', 'bab_el_fall
 let currentGallery = [];
 let currentIndex = 0;
 
-// Actual image paths from the directories
-const imagePaths = {
-    'about_me': [
-        'images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg',
-        'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'
-    ],
-    'kerkennah': [
-        'images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg',
-        'images/kerkennah/c91b8969-d913-467a-8a28-41f8141780c6.jpeg',
-        'images/kerkennah/bab24639-2215-4637-b774-bbd9d442031b.jpeg',
-        'images/kerkennah/ea809cbc-867c-4cd7-9ca7-206f036b2abc.jpeg',
-        'images/kerkennah/fced7c47-2ab1-4d28-9964-2add7e3f7721.jpeg'
-    ],
-    'inde': [
-        'images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
-        'images/inde/fbcd7b66-c2d3-4600-a429-6b24cd25107b.jpeg',
-        'images/inde/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
-    ],
-    'home': [
-        'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
-    ]
+// Image data will be loaded from JSON
+let imageData = {
+    folders: {},
+    firstImages: {},
+    captions: {}
 };
 
-// Captions for each folder
-const folderCaptions = {
+// Placeholder/fallback image
+const placeholderImage = 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+
+// Function to get the first image from a folder
+const getFirstImageFromFolder = (folder) => {
+    if (imageData.firstImages && imageData.firstImages[folder]) {
+        return imageData.firstImages[folder];
+    }
+    
+    // Fallback to hardcoded values if data not available
+    const folderImages = {
+        'about_me': ['images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg'],
+        'kerkennah': ['images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg'],
+        'al_ziyara': ['images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg'],
+        'jmc': ['images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'],
+        'traversée': ['images/traversée/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
+        'kairouan': ['images/kairouan/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
+        'inde': ['images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg'],
+        'bab_bhar': ['images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg'],
+        'bab_el_falla': ['images/bab_el_falla/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
+        'mouhit': ['images/mouhit/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
+        'cathédrale': ['images/cathédrale/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
+        'home': ['images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg']
+    };
+    
+    // Ensure every folder has a defined image
+    if (!folderImages[folder] || folderImages[folder].length === 0) {
+        // Define default images for any missing folders
+        if (folder === 'traversée') {
+            return 'images/traversée/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+        } else if (folder === 'kairouan') {
+            return 'images/kairouan/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+        } else if (folder === 'inde') {
+            return 'images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg';
+        } else if (folder === 'bab_bhar') {
+            return 'images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg';
+        } else if (folder === 'bab_el_falla') {
+            return 'images/bab_el_falla/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+        } else if (folder === 'mouhit') {
+            return 'images/mouhit/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+        } else if (folder === 'cathédrale') {
+            return 'images/cathédrale/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+        } else if (folder === 'al_ziyara') {
+            return 'images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg';
+        } else if (folder === 'jmc') {
+            return 'images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg';
+        } else if (folder === 'kerkennah') {
+            return 'images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg';
+        }
+        
+        return placeholderImage;
+    }
+    
+    return folderImages[folder][0];
+};
+
+// Fallback captions (used if image-data.json can't be loaded)
+const fallbackCaptions = {
     'kerkennah': `في بحر حبك تستريح قواربي    
 وتعوم فوق صفائه اشجاني 
 فأنا اذا ما مرّ طيفُك عابراً 
@@ -60,11 +100,48 @@ Kerkennah Janvier 2025`,
 Cathédrale Saint Vincent de Tunis 
 16-05-2025 Tunis 
 
-SPECTACLE DE L'AMOUR ET LA PAIX`
+SPECTACLE DE L'AMOUR ET LA PAIX`,
+    'jmc': `JMC Project
+
+A visual exploration of contemporary spaces.
+2025`,
+    'al_ziyara': `The Pilgrimage
+
+A journey through sacred spaces and spiritual moments.
+2025`,
+    'bab_bhar': `Bab Bhar
+
+The ancient gateway to the Mediterranean.
+2025`,
+    'traversée': `Traversée
+
+A journey across waters and cultures.
+2024`,
+    'kairouan': `Kairouan
+
+The holy city's texture and light.
+2024`,
+    'bab_el_falla': `Bab El Falla
+
+Exploring the historic gateway and its surroundings.
+2025`,
+    'mouhit': `Mouhit
+
+The ocean's endless horizon and rhythms.
+2025`,
+    'cathédrale': `Cathédrale Saint Vincent de Tunis
+
+Light and shadows in a sacred space.
+2025`
 };
 
-// For folders without actual images, we'll reuse the home image for display purposes
-const placeholderImage = 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+// Function to get caption for a folder
+const getFolderCaption = (folder) => {
+    if (imageData.captions && imageData.captions[folder]) {
+        return imageData.captions[folder];
+    }
+    return fallbackCaptions[folder] || '';
+};
 
 // Header scroll effect
 window.addEventListener('scroll', () => {
@@ -120,35 +197,53 @@ window.addEventListener('scroll', () => {
     });
 });
 
+// Load image data from JSON file
+function loadImageData() {
+    return fetch('image-data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load image data');
+            }
+            return response.json();
+        })
+        .then(data => {
+            imageData = data;
+            console.log('Image data loaded successfully', imageData);
+            return data;
+        })
+        .catch(error => {
+            console.error('Error loading image data:', error);
+            // Continue with fallback data
+            return null;
+        });
+}
+
 // Fetch and display images from folders
 document.addEventListener('DOMContentLoaded', () => {
-    // Set the hero background image
-    const heroSection = document.querySelector('.hero');
-    if (imagePaths.home && imagePaths.home.length > 0) {
-        heroSection.style.backgroundImage = `url('${imagePaths.home[0]}')`;
-    }
-    
-    // Set the full-width feature background image (using one of the about_me images if available)
-    const featureSection = document.querySelector('.full-width-feature');
-    if (imagePaths.about_me && imagePaths.about_me.length > 0) {
-        featureSection.style.backgroundImage = `url('${imagePaths.about_me[0]}')`;
-    } else {
-        featureSection.style.backgroundImage = `url('${placeholderImage}')`;
-    }
-    
-    // Load About Me images (still showing all of them)
-    loadGalleryImages('about_me', document.querySelector('.about-gallery'));
-    
-    // Load Project thumbnails (one per project)
-    const projectsGallery = document.querySelector('.projects-gallery');
-    projectFolders.forEach(folder => {
-        createProjectThumbnail(folder, projectsGallery, false);
-    });
-    
-    // Load Album thumbnails (one per album)
-    const albumsGrid = document.querySelector('.albums-grid');
-    albumFolders.forEach(folder => {
-        createProjectThumbnail(folder, albumsGrid, true);
+    // Load image data first, then initialize the UI
+    loadImageData().then(() => {
+        // Set the hero background image
+        const heroSection = document.querySelector('.hero');
+        heroSection.style.backgroundImage = `url('${getFirstImageFromFolder('home')}')`;
+        
+        // Set the full-width feature background image
+        const featureSection = document.querySelector('.full-width-feature');
+        featureSection.style.backgroundImage = `url('${getFirstImageFromFolder('about_me')}')`;
+        
+        // Load About Me images
+        loadGalleryImages('about_me', document.querySelector('.about-gallery'));
+        
+        // Load Project thumbnails
+        const projectsGallery = document.querySelector('.projects-gallery');
+        projectFolders.forEach(folder => {
+            createProjectThumbnail(folder, projectsGallery, false);
+        });
+        
+        // Load Album thumbnails
+        const albumsGrid = document.querySelector('.albums-grid');
+        albumFolders.forEach(folder => {
+            createProjectThumbnail(folder, albumsGrid, true);
+        });
     });
 });
 
@@ -180,7 +275,7 @@ function openModal(imgSrc, caption, gallery, index) {
     // Use folder caption if available
     if (caption.includes('caption.txt')) {
         const folder = imgSrc.split('/')[1]; // Get folder name from path
-        modalCaption.innerHTML = folderCaptions[folder] ? folderCaptions[folder].replace(/\n/g, '<br>') : caption;
+        modalCaption.innerHTML = getFolderCaption(folder).replace(/\n/g, '<br>') || caption;
     } else {
         modalCaption.textContent = caption || '';
     }
@@ -212,7 +307,7 @@ function showPrevImage() {
         // Update caption
         if (caption.includes('caption.txt')) {
             const folder = src.split('/')[1]; // Get folder name from path
-            modalCaption.innerHTML = folderCaptions[folder] ? folderCaptions[folder].replace(/\n/g, '<br>') : caption;
+            modalCaption.innerHTML = getFolderCaption(folder).replace(/\n/g, '<br>') || caption;
         } else {
             modalCaption.textContent = caption || '';
         }
@@ -230,7 +325,7 @@ function showNextImage() {
         // Update caption
         if (caption.includes('caption.txt')) {
             const folder = src.split('/')[1]; // Get folder name from path
-            modalCaption.innerHTML = folderCaptions[folder] ? folderCaptions[folder].replace(/\n/g, '<br>') : caption;
+            modalCaption.innerHTML = getFolderCaption(folder).replace(/\n/g, '<br>') || caption;
         } else {
             modalCaption.textContent = caption || '';
         }
@@ -274,8 +369,11 @@ function loadGalleryImages(folder, container, category = null) {
     // Only used for the About Me section now
     if (folder !== 'about_me') return;
     
-    // Get image paths for this folder, or use placeholder
-    const folderImages = imagePaths[folder] || [];
+    // Get image paths for this folder from imageData or fallback
+    const folderImages = (imageData.folders && imageData.folders[folder]) ? 
+        imageData.folders[folder] : 
+        ['images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg', 'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'];
+    
     const gallery = [];
     
     // If no images found in the folder, use placeholder
@@ -304,6 +402,7 @@ function createGalleryItem(imgSrc, folder, container, category, gallery, index) 
     const img = document.createElement('img');
     img.src = imgSrc;
     img.alt = formatFolderName(folder);
+    img.onerror = () => { img.src = placeholderImage; }; // Fallback on error
     
     // Create overlay
     const overlay = document.createElement('div');
@@ -314,9 +413,10 @@ function createGalleryItem(imgSrc, folder, container, category, gallery, index) 
     titleElement.textContent = formatFolderName(folder);
     
     // Add caption preview if available
-    if (folderCaptions[folder]) {
+    const caption = getFolderCaption(folder);
+    if (caption) {
         const captionPreview = document.createElement('p');
-        captionPreview.textContent = folderCaptions[folder].split('\n')[0]; // Just show the first line
+        captionPreview.textContent = caption.split('\n')[0]; // Just show the first line
         overlay.appendChild(captionPreview);
     }
     
@@ -340,7 +440,7 @@ function createGalleryItem(imgSrc, folder, container, category, gallery, index) 
 // Create a project or album thumbnail with link to individual page
 function createProjectThumbnail(folder, container, isAlbum = false) {
     // Get first image from folder or use placeholder
-    const imgSrc = (imagePaths[folder] && imagePaths[folder][0]) || placeholderImage;
+    const imgSrc = getFirstImageFromFolder(folder);
     const title = formatFolderName(folder);
     
     // Create item
@@ -354,6 +454,7 @@ function createProjectThumbnail(folder, container, isAlbum = false) {
     const img = document.createElement('img');
     img.src = imgSrc;
     img.alt = title;
+    img.onerror = () => { img.src = placeholderImage; }; // Fallback on error
     
     // Create overlay
     const overlay = document.createElement('div');
@@ -364,9 +465,10 @@ function createProjectThumbnail(folder, container, isAlbum = false) {
     titleElement.textContent = title;
     
     // Add caption preview if available
-    if (folderCaptions[folder]) {
+    const caption = getFolderCaption(folder);
+    if (caption) {
         const captionPreview = document.createElement('p');
-        captionPreview.textContent = folderCaptions[folder].split('\n')[0]; // Just show the first line
+        captionPreview.textContent = caption.split('\n')[0]; // Just show the first line
         overlay.appendChild(captionPreview);
     }
     
