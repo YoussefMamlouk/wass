@@ -136,23 +136,23 @@ document.addEventListener('DOMContentLoaded', () => {
         featureSection.style.backgroundImage = `url('${placeholderImage}')`;
     }
     
-    // Load About Me images
+    // Load About Me images (still showing all of them)
     loadGalleryImages('about_me', document.querySelector('.about-gallery'));
     
-    // Load Project images
+    // Load Project thumbnails (one per project)
     const projectsGallery = document.querySelector('.projects-gallery');
     projectFolders.forEach(folder => {
-        loadGalleryImages(folder, projectsGallery, folder);
+        createProjectThumbnail(folder, projectsGallery, false);
     });
     
-    // Load Album thumbnails
+    // Load Album thumbnails (one per album)
     const albumsGrid = document.querySelector('.albums-grid');
     albumFolders.forEach(folder => {
-        createAlbumThumbnail(folder, albumsGrid);
+        createProjectThumbnail(folder, albumsGrid, true);
     });
 });
 
-// Filter project images
+// Filter project thumbnails
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         // Update active button
@@ -172,7 +172,7 @@ filterBtns.forEach(btn => {
     });
 });
 
-// Modal functionality
+// Modal functionality (only for About Me section images)
 function openModal(imgSrc, caption, gallery, index) {
     modal.style.display = 'block';
     modalImg.src = imgSrc;
@@ -269,8 +269,11 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// Helper function to load gallery images
+// Helper function to load gallery images (for About Me section only)
 function loadGalleryImages(folder, container, category = null) {
+    // Only used for the About Me section now
+    if (folder !== 'about_me') return;
+    
     // Get image paths for this folder, or use placeholder
     const folderImages = imagePaths[folder] || [];
     const gallery = [];
@@ -288,11 +291,8 @@ function loadGalleryImages(folder, container, category = null) {
     });
 }
 
-// Helper function to create a gallery item
+// Helper function to create a gallery item (for About Me section)
 function createGalleryItem(imgSrc, folder, container, category, gallery, index) {
-    // Use caption from caption.txt if available
-    const captionFile = `${folder}/caption.txt`;
-    
     // Create gallery item
     const galleryItem = document.createElement('div');
     galleryItem.className = 'gallery-item';
@@ -326,26 +326,29 @@ function createGalleryItem(imgSrc, folder, container, category, gallery, index) 
     galleryItem.appendChild(overlay);
     
     // Add to gallery array for modal navigation
-    gallery.push({ src: imgSrc, caption: captionFile });
+    gallery.push({ src: imgSrc, caption: folder + '/caption.txt' });
     
     // Add click event to open modal
     galleryItem.addEventListener('click', () => {
-        openModal(imgSrc, captionFile, gallery, index);
+        openModal(imgSrc, folder + '/caption.txt', gallery, index);
     });
     
     // Add to container
     container.appendChild(galleryItem);
 }
 
-// Helper function to create album thumbnails
-function createAlbumThumbnail(folder, container) {
+// Create a project or album thumbnail with link to individual page
+function createProjectThumbnail(folder, container, isAlbum = false) {
     // Get first image from folder or use placeholder
     const imgSrc = (imagePaths[folder] && imagePaths[folder][0]) || placeholderImage;
     const title = formatFolderName(folder);
     
-    // Create album item
-    const albumItem = document.createElement('div');
-    albumItem.className = 'album-item';
+    // Create item
+    const item = document.createElement('div');
+    item.className = isAlbum ? 'album-item' : 'gallery-item';
+    if (!isAlbum) {
+        item.setAttribute('data-category', folder);
+    }
     
     // Create image
     const img = document.createElement('img');
@@ -354,7 +357,7 @@ function createAlbumThumbnail(folder, container) {
     
     // Create overlay
     const overlay = document.createElement('div');
-    overlay.className = 'album-item-overlay';
+    overlay.className = isAlbum ? 'album-item-overlay' : 'gallery-item-overlay';
     
     // Create title
     const titleElement = document.createElement('h3');
@@ -369,35 +372,16 @@ function createAlbumThumbnail(folder, container) {
     
     // Append elements
     overlay.appendChild(titleElement);
-    albumItem.appendChild(img);
-    albumItem.appendChild(overlay);
+    item.appendChild(img);
+    item.appendChild(overlay);
     
-    // Add click event to open album
-    albumItem.addEventListener('click', () => {
-        openAlbum(folder);
+    // Add click event to navigate to project/album page
+    item.addEventListener('click', () => {
+        window.location.href = `project-template.html?project=${folder}&type=${isAlbum ? 'album' : 'project'}`;
     });
     
     // Add to container
-    container.appendChild(albumItem);
-}
-
-// Function to open an album
-function openAlbum(folder) {
-    // Hide the projects filter
-    document.querySelector('.projects-filters').style.display = 'none';
-    
-    // Clear projects gallery
-    const projectsGallery = document.querySelector('.projects-gallery');
-    projectsGallery.innerHTML = '';
-    
-    // Load album images
-    loadGalleryImages(folder, projectsGallery);
-    
-    // Scroll to projects section
-    document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
-    
-    // Update section title
-    document.querySelector('.projects h2').textContent = formatFolderName(folder);
+    container.appendChild(item);
 }
 
 // Helper function to format folder names for display
