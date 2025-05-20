@@ -475,6 +475,28 @@ function loadGalleryImages(folder, container, category = null) {
                 textBlock.style.marginBottom = '0';
             }
             textBlock.style.textAlign = 'left';
+            
+            // Ensure consistent paragraph styling
+            const aboutMainText = textBlock.querySelector('.about-main-text');
+            if (aboutMainText) {
+                const paragraphs = aboutMainText.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    // Apply consistent font family
+                    p.style.fontFamily = "'Cormorant Garamond', serif";
+                    
+                    if (p.classList.contains('featured')) {
+                        p.style.fontSize = isMobile ? '1.2rem' : '1.4rem';
+                        p.style.fontStyle = 'italic';
+                        p.style.color = '#111';
+                    } else {
+                        p.style.fontSize = isMobile ? '1rem' : '1.2rem';
+                        p.style.color = '#333';
+                    }
+                    
+                    p.style.lineHeight = isMobile ? '1.7' : '1.8';
+                    p.style.marginBottom = '0.75em';
+                });
+            }
         } else {
             console.warn('Could not find .about-text-block as the first child of .about-gallery');
         }
@@ -538,6 +560,16 @@ function loadGalleryImages(folder, container, category = null) {
                 imageContainer.style.order = '0';
                 
                 img.style.maxHeight = '350px';
+                
+                // Update paragraph styling for mobile
+                const aboutMainText = textBlock.querySelector('.about-main-text');
+                if (aboutMainText) {
+                    const paragraphs = aboutMainText.querySelectorAll('p');
+                    paragraphs.forEach(p => {
+                        p.style.fontSize = p.classList.contains('featured') ? '1.2rem' : '1rem';
+                        p.style.lineHeight = '1.7';
+                    });
+                }
             } else {
                 // Update to desktop layout
                 container.style.flexDirection = 'row';
@@ -553,6 +585,16 @@ function loadGalleryImages(folder, container, category = null) {
                 imageContainer.style.order = '1';
                 
                 img.style.maxHeight = '500px';
+                
+                // Update paragraph styling for desktop
+                const aboutMainText = textBlock.querySelector('.about-main-text');
+                if (aboutMainText) {
+                    const paragraphs = aboutMainText.querySelectorAll('p');
+                    paragraphs.forEach(p => {
+                        p.style.fontSize = p.classList.contains('featured') ? '1.4rem' : '1.2rem';
+                        p.style.lineHeight = '1.8';
+                    });
+                }
             }
         });
 

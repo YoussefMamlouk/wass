@@ -1034,6 +1034,17 @@ footer {
 
 .about-main-text p {
     margin-bottom: 0.75em;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.about-main-text p.featured {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #111;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 .about-text-block .section-header {
@@ -1049,10 +1060,13 @@ footer {
 @media screen and (max-width: 576px) {
     .about-main-text p.featured {
         font-size: 1.2rem;
+        font-family: 'Cormorant Garamond', serif;
     }
     
     .about-main-text p {
         font-size: 1rem;
+        font-family: 'Cormorant Garamond', serif;
+        line-height: 1.7;
     }
     
     .about {
@@ -1062,6 +1076,4 @@ footer {
     .about-gallery {
         padding: 1rem !important;
     }
-}
-
-/* Removed: .about-text-block .about-main-text { margin-top: auto; } */ 
+} 
