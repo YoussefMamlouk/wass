@@ -136,7 +136,7 @@ header.scrolled {
 }
 
 .logo img {
-    height: 40px;
+    height: 50px;
     width: auto;
 }
 
@@ -508,6 +508,7 @@ blockquote cite {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 4rem;
+    align-items: start;
 }
 
 .contact-info {
@@ -533,11 +534,22 @@ blockquote cite {
     margin-right: 1.5rem;
     font-size: 1.2rem;
     color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.2rem;
+}
+
+.info-item p {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
 }
 
 .social-links {
     display: flex;
     margin-top: 3rem;
+    align-items: center;
 }
 
 .social-links a {
@@ -578,6 +590,7 @@ blockquote cite {
     font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
     transition: var(--transition);
+    line-height: 1.5;
 }
 
 .contact-form input:focus,
@@ -591,32 +604,39 @@ blockquote cite {
     resize: vertical;
 }
 
+.contact-form .btn {
+    margin-left: 0;
+}
+
 /* Footer */
 footer {
     background-color: var(--primary-color);
     color: var(--light-text);
-    padding: 4rem 0 2rem;
+    padding: 3rem 0 1.5rem;
 }
 
 .footer-content {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto 1fr auto;
     gap: 2rem;
-    margin-bottom: 3rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
 }
 
 .footer-logo img {
     height: 40px;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .footer-links ul {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .footer-links ul li {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .footer-links ul li a {
@@ -631,6 +651,7 @@ footer {
 .footer-social {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .footer-social a {
@@ -654,8 +675,8 @@ footer {
 .copyright {
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 2rem;
-    font-size: 0.9rem;
+    padding-top: 1.5rem;
+    font-size: 0.85rem;
     color: #aaa;
 }
 
@@ -771,6 +792,13 @@ footer {
     
     .contact-info {
         padding-right: 0;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
     }
     
     h2 {
