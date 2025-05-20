@@ -40,38 +40,58 @@ Cathédrale Saint Vincent de Tunis
 16-05-2025 Tunis 
 
 SPECTACLE DE L'AMOUR ET LA PAIX`,
-    'jmc': `JMC Project
+    'jmc': `"قد تنظر لما أنظر، ولكنك لا ترى ما أرى..."
+- أرسطو
 
-A visual exploration of contemporary spaces.
-2025`,
-    'al_ziyara': `The Pilgrimage
+Journées musicales de Carthage 2025`,
+    'al_ziyara': `‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.
 
-A journey through sacred spaces and spiritual moments.
-2025`,
-    'bab_bhar': `Bab Bhar
+‎- شمس التبريزي
 
-The ancient gateway to the Mediterranean.
-2025`,
-    'traversée': `Traversée
+Cathédrale Saint Vincent de Tunis 
+16-05-2025 Tunis 
 
-A journey across waters and cultures.
-2024`,
-    'kairouan': `Kairouan
+SPECTACLE DE L'AMOUR ET LA PAIX`,
+    'bab_bhar': `Virée hivernale à Bab Bhar….
 
-The holy city's texture and light.
-2024`,
-    'bab_el_falla': `Bab El Falla
+‎لا تدع قلبك يصدأ بالأسى، ولا تبقَ طويلًا مع الغائبة قلوبهم
 
-Exploring the historic gateway and its surroundings.
-2025`,
-    'mouhit': `Mouhit
+‎– جلال الدين الرومي
 
-The ocean's endless horizon and rhythms.
-2025`,
-    'cathédrale': `Cathédrale Saint Vincent de Tunis
+7 février 2025`,
+    'traversée': `‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.
 
-Light and shadows in a sacred space.
-2025`
+‎-جلال الدين الرومي
+
+Traversée ……
+
+Loud 'El Mouhit'
+Sfax-Kerkennah 
+
+Janvier 2025`,
+    'kairouan': `Sortie photographique Kairouan Janvier 2025 avec Club Photo de Tunis
+
+Fragments de vie ….`,
+    'bab_el_falla': `‎دع روحك تجذبك بصمتٍ إلى ما تحبه، فإنها لن تُضلّك أبدًا.
+
+‎- جلال الدين الرومي
+
+Bab El Falla 
+Ramadan 2025`,
+    'mouhit': `"إن المرء مع من لا يفهمه سجين." 
+
+ شمس الدين التبريزي 
+
+📸Wassila Mestiri 
+Loud Al Mouhit Avril 2025‎`,
+    'cathé́drale': `‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.
+
+‎- شمس التبريزي
+
+Cathédrale Saint Vincent de Tunis 
+16-05-2025 Tunis 
+
+SPECTACLE DE L'AMOUR ET LA PAIX`
 };
 
 // Function to get caption for a folder
@@ -82,10 +102,29 @@ const getFolderCaption = (folder) => {
     return fallbackCaptions[folder] || '';
 };
 
+// Special folders that require direct handling
+const specialFolders = {
+    'traversee': {
+        thumbnail: 'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
+        images: [
+            'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
+            'images/traversee/a34f9509-a80d-4886-ad36-e0a34eeacf24.jpeg',
+            'images/traversee/e906b09d-02b4-4e3e-a8d8-3e6b0cc08be9.jpeg'
+        ]
+    },
+    'cathedrale': {
+        thumbnail: 'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+        images: [
+            'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+            'images/cathedrale/d04624a6-6136-4c1b-9505-31ee2b953a4e.jpeg',
+            'images/cathedrale/e5574915-cb16-446c-bbb0-0890d870fafc.jpeg'
+        ]
+    }
+};
+
 // Fallback project images (used if image-data.json can't be loaded)
 const fallbackProjectImages = {
     'about_me': [
-        'images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg',
         'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'
     ],
     'kerkennah': [
@@ -102,43 +141,45 @@ const fallbackProjectImages = {
     ],
     'al_ziyara': [
         'images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg',
-        'images/al_ziyara/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/al_ziyara/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg'
+        'images/al_ziyara/0d715e67-2738-4b79-81f0-c10db9a032cc.jpeg',
+        'images/al_ziyara/56bd4b38-754d-445d-9d54-7cc85c656026.jpeg',
+        'images/al_ziyara/82cb21e5-07f4-405a-b75e-278ddd2088f5.jpeg',
+        'images/al_ziyara/a4e22fe8-0d07-4841-8d9a-2c738c093d04.jpeg',
+        'images/al_ziyara/cca31891-7c49-4639-a0e4-3aea14e7ea85.jpeg'
     ],
     'jmc': [
         'images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg',
-        'images/jmc/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/jmc/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg'
+        'images/jmc/2ec600d9-93f1-4ca4-b6d6-baa03f206ffe.jpeg'
     ],
-    'traversée': [
-        'images/traversée/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/traversée/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
-        'images/traversée/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'
+    'traversee': [
+        'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
+        'images/traversee/a34f9509-a80d-4886-ad36-e0a34eeacf24.jpeg',
+        'images/traversee/e906b09d-02b4-4e3e-a8d8-3e6b0cc08be9.jpeg'
     ],
     'kairouan': [
-        'images/kairouan/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/kairouan/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
-        'images/kairouan/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'
+        'images/kairouan/d532f891-1979-4077-b55a-77deacdf7cc8.jpeg',
+        'images/kairouan/dcc378a3-3dac-48bb-9d51-aeb301b89dbf.jpeg'
     ],
     'bab_bhar': [
         'images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg',
-        'images/bab_bhar/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/bab_bhar/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg'
+        'images/bab_bhar/17273adc-3a08-4b1b-913d-cabd6016b5a5.jpeg',
+        'images/bab_bhar/19321704-063f-408d-b616-e8469b23a70f.jpeg',
+        'images/bab_bhar/31d31106-55db-49da-8c43-2181463cd0d1.jpeg',
+        'images/bab_bhar/8c6d07b6-b612-4613-a1ca-11aa7d56bd4f.jpeg',
+        'images/bab_bhar/94d82856-e170-4b4d-a711-4230181b64c3.jpeg',
+        'images/bab_bhar/e072abcd-d110-45d1-8dd4-e8d4e895d553.jpeg',
+        'images/bab_bhar/e1fe240f-d0d6-4d69-a46f-78036107ac38.jpeg'
     ],
     'bab_el_falla': [
-        'images/bab_el_falla/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/bab_el_falla/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
-        'images/bab_el_falla/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'
+        'images/bab_el_falla/e86571d5-3cca-4fbd-8ea3-2855aac56229.jpeg'
     ],
     'mouhit': [
-        'images/mouhit/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/mouhit/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
-        'images/mouhit/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'
+        'images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg'
     ],
-    'cathédrale': [
-        'images/cathédrale/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg',
-        'images/cathédrale/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
-        'images/cathédrale/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'
+    'cathedrale': [
+        'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+        'images/cathedrale/d04624a6-6136-4c1b-9505-31ee2b953a4e.jpeg',
+        'images/cathedrale/e5574915-cb16-446c-bbb0-0890d870fafc.jpeg'
     ],
     'home': [
         'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
@@ -147,15 +188,25 @@ const fallbackProjectImages = {
 
 // Function to get images for a folder
 const getFolderImages = (folder) => {
+    // First check special folders
+    if (specialFolders[folder]) {
+        return specialFolders[folder].images;
+    }
+    
+    // Then check imageData
     if (imageData.folders && imageData.folders[folder]) {
         return imageData.folders[folder];
     }
+    
+    // Finally fallback to hardcoded values
     return fallbackProjectImages[folder] || [];
 };
 
 // Load image data from JSON file
 function loadImageData() {
-    return fetch('image-data.json')
+    // Add cache busting parameter to prevent browser caching
+    const cacheBuster = `?cache=${Date.now()}`;
+    return fetch('image-data.json' + cacheBuster)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to load image data');
@@ -223,6 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize project page
 function initProjectPage(folder) {
+    console.log(`Initializing project page for: ${folder}`);
+    
     // Set page title and subtitle
     const formattedTitle = formatFolderName(folder);
     document.title = `${formattedTitle} | Wassila Mestiri Photography`;
@@ -240,12 +293,19 @@ function initProjectPage(folder) {
         }
     }
     
-    // Set hero background image - use the first image from folder
-    const images = getFolderImages(folder);
-    if (images && images.length > 0) {
-        projectHero.style.backgroundImage = `url('${images[0]}')`;
+    // Set hero background image - first check special folders, then dynamic images
+    if (specialFolders[folder]) {
+        projectHero.style.backgroundImage = `url('${specialFolders[folder].thumbnail}')`;
+        console.log(`Set hero image from special folder: ${specialFolders[folder].thumbnail}`);
     } else {
-        projectHero.style.backgroundImage = `url('images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg')`;
+        const images = getFolderImages(folder);
+        if (images && images.length > 0) {
+            projectHero.style.backgroundImage = `url('${images[0]}')`;
+            console.log(`Set hero image: ${images[0]}`);
+        } else {
+            projectHero.style.backgroundImage = `url('images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg')`;
+            console.log('Using default hero image');
+        }
     }
     
     // Set project description
@@ -276,11 +336,12 @@ function initProjectPage(folder) {
 // Load project images with alternating layout
 function loadProjectImages(folder) {
     const images = getFolderImages(folder);
+    console.log(`Loading project images for ${folder}. Found ${images.length} images:`, images);
     
     if (images.length === 0) {
         // If we don't have images for this folder, provide a fallback message and image
         projectGallery.innerHTML = `
-            <div class="gallery-pair full-width">
+            <div class="gallery-pair">
                 <div class="gallery-image">
                     <img src="images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg" alt="${formatFolderName(folder)}">
                 </div>
@@ -289,9 +350,15 @@ function loadProjectImages(folder) {
                 </div>
             </div>
         `;
+        console.log(`No images found for ${folder}, using fallback message`);
         return;
     }
     
+    renderGallery(folder, images);
+}
+
+// Helper function to render the gallery with images and captions
+function renderGallery(folder, images) {
     // Split caption into parts for each image
     const captionParts = splitCaptionForImages(getFolderCaption(folder), images.length);
     const hasArabic = /[\u0600-\u06FF]/.test(getFolderCaption(folder) || '');
@@ -299,18 +366,9 @@ function loadProjectImages(folder) {
     // Create gallery HTML
     let galleryHTML = '';
     
-    // First image is full width
-    galleryHTML += `
-        <div class="gallery-pair full-width">
-            <div class="gallery-image">
-                <img src="${images[0]}" alt="${formatFolderName(folder)}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'">
-            </div>
-        </div>
-    `;
-    
-    // Rest of images alternate left/right with caption
-    for (let i = 1; i < images.length; i++) {
-        const isReversed = i % 2 === 0;
+    // All images have the same size, including the first one
+    for (let i = 0; i < images.length; i++) {
+        const isReversed = i % 2 !== 0; // Alternate layout
         const captionHTML = captionParts[i] ? 
             `<div class="gallery-text" ${hasArabic ? 'lang="ar"' : ''}>
                 <p>${captionParts[i].replace(/\n/g, '<br>')}</p>
@@ -327,6 +385,7 @@ function loadProjectImages(folder) {
     }
     
     projectGallery.innerHTML = galleryHTML;
+    console.log(`Gallery rendered with ${images.length} images for ${folder}`);
 }
 
 // Split captions for multiple images
@@ -357,4 +416,4 @@ function formatFolderName(folder) {
     return folder
         .replace(/_/g, ' ')
         .replace(/\b\w/g, char => char.toUpperCase());
-} 
+}

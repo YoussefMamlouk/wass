@@ -14,7 +14,7 @@ const nextBtn = document.querySelector('.next');
 // Project folders based on requirements
 const projectFolders = ['kerkennah', 'al_ziyara', 'jmc'];
 // All other folders except home, logo, and about_me will be albums
-const albumFolders = ['traversée', 'kairouan', 'inde', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathédrale'];
+const albumFolders = ['traversee', 'kairouan', 'inde', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale'];
 
 // Current gallery images and index for modal navigation
 let currentGallery = [];
@@ -30,57 +30,61 @@ let imageData = {
 // Placeholder/fallback image
 const placeholderImage = 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
 
+// Special folders that require direct handling
+const specialFolders = {
+    'traversee': {
+        thumbnail: 'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
+        images: [
+            'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
+            'images/traversee/a34f9509-a80d-4886-ad36-e0a34eeacf24.jpeg',
+            'images/traversee/e906b09d-02b4-4e3e-a8d8-3e6b0cc08be9.jpeg'
+        ]
+    },
+    'cathedrale': {
+        thumbnail: 'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+        images: [
+            'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+            'images/cathedrale/d04624a6-6136-4c1b-9505-31ee2b953a4e.jpeg',
+            'images/cathedrale/e5574915-cb16-446c-bbb0-0890d870fafc.jpeg'
+        ]
+    },
+    'about_me': {
+        thumbnail: 'images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg',
+        images: [
+            'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'
+        ]
+    }
+};
+
 // Function to get the first image from a folder
 const getFirstImageFromFolder = (folder) => {
+    // First check special folders
+    if (specialFolders[folder]) {
+        return specialFolders[folder].thumbnail;
+    }
+    
+    // Then check imageData
     if (imageData.firstImages && imageData.firstImages[folder]) {
         return imageData.firstImages[folder];
     }
     
     // Fallback to hardcoded values if data not available
     const folderImages = {
-        'about_me': ['images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg'],
-        'kerkennah': ['images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg'],
-        'al_ziyara': ['images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg'],
-        'jmc': ['images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg'],
-        'traversée': ['images/traversée/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
-        'kairouan': ['images/kairouan/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
-        'inde': ['images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg'],
-        'bab_bhar': ['images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg'],
-        'bab_el_falla': ['images/bab_el_falla/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
-        'mouhit': ['images/mouhit/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
-        'cathédrale': ['images/cathédrale/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'],
-        'home': ['images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg']
+        'about_me': 'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg',
+        'kerkennah': 'images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg',
+        'al_ziyara': 'images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg',
+        'jmc': 'images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg',
+        'traversee': 'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
+        'kairouan': 'images/kairouan/d532f891-1979-4077-b55a-77deacdf7cc8.jpeg',
+        'inde': 'images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
+        'bab_bhar': 'images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg',
+        'bab_el_falla': 'images/bab_el_falla/e86571d5-3cca-4fbd-8ea3-2855aac56229.jpeg',
+        'mouhit': 'images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg',
+        'cathedrale': 'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+        'home': 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
     };
     
-    // Ensure every folder has a defined image
-    if (!folderImages[folder] || folderImages[folder].length === 0) {
-        // Define default images for any missing folders
-        if (folder === 'traversée') {
-            return 'images/traversée/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
-        } else if (folder === 'kairouan') {
-            return 'images/kairouan/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
-        } else if (folder === 'inde') {
-            return 'images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg';
-        } else if (folder === 'bab_bhar') {
-            return 'images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg';
-        } else if (folder === 'bab_el_falla') {
-            return 'images/bab_el_falla/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
-        } else if (folder === 'mouhit') {
-            return 'images/mouhit/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
-        } else if (folder === 'cathédrale') {
-            return 'images/cathédrale/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
-        } else if (folder === 'al_ziyara') {
-            return 'images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg';
-        } else if (folder === 'jmc') {
-            return 'images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg';
-        } else if (folder === 'kerkennah') {
-            return 'images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg';
-        }
-        
-        return placeholderImage;
-    }
-    
-    return folderImages[folder][0];
+    return folderImages[folder] || placeholderImage;
 };
 
 // Fallback captions (used if image-data.json can't be loaded)
@@ -101,38 +105,58 @@ Cathédrale Saint Vincent de Tunis
 16-05-2025 Tunis 
 
 SPECTACLE DE L'AMOUR ET LA PAIX`,
-    'jmc': `JMC Project
+    'jmc': `"قد تنظر لما أنظر، ولكنك لا ترى ما أرى..."
+- أرسطو
 
-A visual exploration of contemporary spaces.
-2025`,
-    'al_ziyara': `The Pilgrimage
+Journées musicales de Carthage 2025`,
+    'al_ziyara': `‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.
 
-A journey through sacred spaces and spiritual moments.
-2025`,
-    'bab_bhar': `Bab Bhar
+‎- شمس التبريزي
 
-The ancient gateway to the Mediterranean.
-2025`,
-    'traversée': `Traversée
+Cathédrale Saint Vincent de Tunis 
+16-05-2025 Tunis 
 
-A journey across waters and cultures.
-2024`,
-    'kairouan': `Kairouan
+SPECTACLE DE L'AMOUR ET LA PAIX`,
+    'bab_bhar': `Virée hivernale à Bab Bhar….
 
-The holy city's texture and light.
-2024`,
-    'bab_el_falla': `Bab El Falla
+‎لا تدع قلبك يصدأ بالأسى، ولا تبقَ طويلًا مع الغائبة قلوبهم
 
-Exploring the historic gateway and its surroundings.
-2025`,
-    'mouhit': `Mouhit
+‎– جلال الدين الرومي
 
-The ocean's endless horizon and rhythms.
-2025`,
-    'cathédrale': `Cathédrale Saint Vincent de Tunis
+7 février 2025`,
+    'traversee': `‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.
 
-Light and shadows in a sacred space.
-2025`
+‎-جلال الدين الرومي
+
+Traversée ……
+
+Loud 'El Mouhit'
+Sfax-Kerkennah 
+
+Janvier 2025`,
+    'kairouan': `Sortie photographique Kairouan Janvier 2025 avec Club Photo de Tunis
+
+Fragments de vie ….`,
+    'bab_el_falla': `‎دع روحك تجذبك بصمتٍ إلى ما تحبه، فإنها لن تُضلّك أبدًا.
+
+‎- جلال الدين الرومي
+
+Bab El Falla 
+Ramadan 2025`,
+    'mouhit': `"إن المرء مع من لا يفهمه سجين." 
+
+ شمس الدين التبريزي 
+
+📸Wassila Mestiri 
+Loud Al Mouhit Avril 2025‎`,
+    'cathedrale': `‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.
+
+‎- شمس التبريزي
+
+Cathédrale Saint Vincent de Tunis 
+16-05-2025 Tunis 
+
+SPECTACLE DE L'AMOUR ET LA PAIX`
 };
 
 // Function to get caption for a folder
@@ -199,7 +223,9 @@ window.addEventListener('scroll', () => {
 
 // Load image data from JSON file
 function loadImageData() {
-    return fetch('image-data.json')
+    // Add cache busting parameter to prevent browser caching
+    const cacheBuster = `?cache=${Date.now()}`;
+    return fetch('image-data.json' + cacheBuster)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to load image data');
@@ -228,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Set the full-width feature background image
         const featureSection = document.querySelector('.full-width-feature');
-        featureSection.style.backgroundImage = `url('${getFirstImageFromFolder('about_me')}')`;
+        featureSection.style.backgroundImage = `url('${specialFolders['about_me'].thumbnail}')`;
         
         // Load About Me images
         loadGalleryImages('about_me', document.querySelector('.about-gallery'));
@@ -244,6 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
         albumFolders.forEach(folder => {
             createProjectThumbnail(folder, albumsGrid, true);
         });
+        
+        console.log('All thumbnails loaded successfully');
     });
 });
 
@@ -366,27 +394,81 @@ window.addEventListener('keydown', (e) => {
 
 // Helper function to load gallery images (for About Me section only)
 function loadGalleryImages(folder, container, category = null) {
-    // Only used for the About Me section now
     if (folder !== 'about_me') return;
-    
-    // Get image paths for this folder from imageData or fallback
-    const folderImages = (imageData.folders && imageData.folders[folder]) ? 
-        imageData.folders[folder] : 
-        ['images/about_me/d4334420-4f6f-4d92-b930-12f804d88e9b.jpeg', 'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'];
-    
-    const gallery = [];
-    
-    // If no images found in the folder, use placeholder
-    if (folderImages.length === 0) {
-        // Create a single item with placeholder image
-        createGalleryItem(placeholderImage, folder, container, category, gallery, 0);
-        return;
+    let folderImages = [];
+    if (specialFolders[folder]) {
+        folderImages = specialFolders[folder].images;
+        console.log(`Using special images for ${folder}:`, folderImages);
+    } else {
+        folderImages = (imageData.folders && imageData.folders[folder]) ? 
+            imageData.folders[folder] : 
+            ['images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'];
     }
-    
-    // Load actual images from the folder
-    folderImages.forEach((imgSrc, index) => {
-        createGalleryItem(imgSrc, folder, container, category, gallery, index);
-    });
+    if (folderImages.length > 0) {
+        // Style the main container (.about-gallery)
+        container.style.display = 'flex';
+        container.style.alignItems = 'center'; // Reverted from stretch
+        container.style.justifyContent = 'space-between';
+        container.style.gap = '2rem'; 
+        container.style.padding = '2rem'; 
+        container.style.background = 'none';
+
+        // Style the text block (assuming it's the first child of container)
+        const textBlock = container.children[0];
+        if (textBlock && textBlock.classList.contains('about-text-block')) {
+            textBlock.style.flex = '0 1 58%'; 
+            textBlock.style.maxWidth = '58%';
+            textBlock.style.textAlign = 'left';
+            // Removed flex properties for textBlock, it will behave as a normal block
+            textBlock.style.display = ''; // Reset display property
+            textBlock.style.flexDirection = ''; // Reset flexDirection
+            textBlock.style.justifyContent = ''; // Reset justifyContent
+        } else {
+            console.warn('Could not find .about-text-block as the first child of .about-gallery');
+        }
+
+        // Remove any previous image container to avoid duplicates
+        const oldImageBlock = container.querySelector('.about-image-block');
+        if (oldImageBlock) oldImageBlock.remove();
+
+        // Create image container block
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'about-image-block';
+        imageContainer.style.flex = '0 1 38%'; 
+        imageContainer.style.maxWidth = '38%';
+        imageContainer.style.display = 'flex';
+        imageContainer.style.justifyContent = 'center'; 
+        imageContainer.style.alignItems = 'center'; // Center image vertically within its block
+
+        // Create and style the image
+        const aboutImageSrc = folderImages[0];
+        const img = document.createElement('img');
+        img.src = aboutImageSrc;
+        img.alt = 'About Me';
+        img.style.maxWidth = '100%'; 
+        img.style.maxHeight = '500px'; 
+        img.style.width = 'auto';   
+        img.style.height = 'auto';   
+        img.style.display = 'block';
+        img.style.borderRadius = '0'; 
+        img.style.boxShadow = 'none';
+
+        imageContainer.appendChild(img);
+        container.appendChild(imageContainer);
+
+        console.log(`Created About Me layout with image: ${aboutImageSrc}`);
+    } else {
+        // Fallback for no images
+        const img = document.createElement('img');
+        img.src = placeholderImage;
+        img.alt = 'About Me';
+        img.style.width = '50%';
+        img.style.height = 'auto';
+        img.style.display = 'block';
+        img.style.margin = '0 auto';
+        container.appendChild(img);
+        console.log(`No images found for About Me, using placeholder`);
+    }
 }
 
 // Helper function to create a gallery item (for About Me section)
@@ -440,7 +522,23 @@ function createGalleryItem(imgSrc, folder, container, category, gallery, index) 
 // Create a project or album thumbnail with link to individual page
 function createProjectThumbnail(folder, container, isAlbum = false) {
     // Get first image from folder or use placeholder
-    const imgSrc = getFirstImageFromFolder(folder);
+    let imgSrc;
+    
+    // Check if this is a special folder with hardcoded paths
+    if (specialFolders[folder]) {
+        imgSrc = specialFolders[folder].thumbnail;
+        console.log(`Using special thumbnail for ${folder}: ${imgSrc}`);
+    }
+    // Use imageData first image if available (from JSON file)
+    else if (imageData.firstImages && imageData.firstImages[folder]) {
+        imgSrc = imageData.firstImages[folder];
+        console.log(`Using JSON image for ${folder}: ${imgSrc}`);
+    } else {
+        // Otherwise fall back to hardcoded path
+        imgSrc = getFirstImageFromFolder(folder);
+        console.log(`Using fallback image for ${folder}: ${imgSrc}`);
+    }
+    
     const title = formatFolderName(folder);
     
     // Create item
@@ -454,7 +552,10 @@ function createProjectThumbnail(folder, container, isAlbum = false) {
     const img = document.createElement('img');
     img.src = imgSrc;
     img.alt = title;
-    img.onerror = () => { img.src = placeholderImage; }; // Fallback on error
+    img.onerror = () => { 
+        console.error(`Failed to load image: ${imgSrc}`);
+        img.src = placeholderImage; 
+    };
     
     // Create overlay
     const overlay = document.createElement('div');
@@ -533,4 +634,55 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
-}); 
+});
+
+// Create a special function to create the traversée album thumbnail
+function createTraverseeAlbumThumbnail(container) {
+    // Hardcode the correct image path for traversée
+    const imgSrc = 'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg';
+    const title = 'Traversée';
+    
+    console.log('Creating traversée thumbnail with hardcoded path:', imgSrc);
+    
+    // Create item
+    const item = document.createElement('div');
+    item.className = 'album-item';
+    
+    // Create image
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.alt = title;
+    img.onerror = () => { 
+        console.error(`Failed to load traversée image: ${imgSrc}`);
+        img.src = placeholderImage; 
+    };
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'album-item-overlay';
+    
+    // Create title
+    const titleElement = document.createElement('h3');
+    titleElement.textContent = title;
+    
+    // Add caption preview if available
+    const caption = getFolderCaption('traversee') || 'Traversée';
+    if (caption) {
+        const captionPreview = document.createElement('p');
+        captionPreview.textContent = caption.split('\n')[0]; // Just show the first line
+        overlay.appendChild(captionPreview);
+    }
+    
+    // Append elements
+    overlay.appendChild(titleElement);
+    item.appendChild(img);
+    item.appendChild(overlay);
+    
+    // Add click event to navigate to project/album page
+    item.addEventListener('click', () => {
+        window.location.href = `project-template.html?project=traversee&type=album`;
+    });
+    
+    // Add to container
+    container.appendChild(item);
+} 

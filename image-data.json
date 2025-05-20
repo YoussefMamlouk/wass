@@ -25,10 +25,10 @@
     "bab_el_falla": [
       "images/bab_el_falla/e86571d5-3cca-4fbd-8ea3-2855aac56229.jpeg"
     ],
-    "cathédrale": [
-      "images/cathédrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg",
-      "images/cathédrale/d04624a6-6136-4c1b-9505-31ee2b953a4e.jpeg",
-      "images/cathédrale/e5574915-cb16-446c-bbb0-0890d870fafc.jpeg"
+    "cathedrale": [
+      "images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg",
+      "images/cathedrale/d04624a6-6136-4c1b-9505-31ee2b953a4e.jpeg",
+      "images/cathedrale/e5574915-cb16-446c-bbb0-0890d870fafc.jpeg"
     ],
     "home": [
       "images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg"
@@ -54,15 +54,15 @@
       "images/kerkennah/fced7c47-2ab1-4d28-9964-2add7e3f7721.jpeg"
     ],
     "logo": [
-      "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.jpeg"
+      "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.png"
     ],
     "mouhit": [
       "images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg"
     ],
-    "traversée": [
-      "images/traversée/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg",
-      "images/traversée/a34f9509-a80d-4886-ad36-e0a34eeacf24.jpeg",
-      "images/traversée/e906b09d-02b4-4e3e-a8d8-3e6b0cc08be9.jpeg"
+    "traversee": [
+      "images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg",
+      "images/traversee/a34f9509-a80d-4886-ad36-e0a34eeacf24.jpeg",
+      "images/traversee/e906b09d-02b4-4e3e-a8d8-3e6b0cc08be9.jpeg"
     ]
   },
   "firstImages": {
@@ -70,26 +70,26 @@
     "al_ziyara": "images/al_ziyara/0d715e67-2738-4b79-81f0-c10db9a032cc.jpeg",
     "bab_bhar": "images/bab_bhar/17273adc-3a08-4b1b-913d-cabd6016b5a5.jpeg",
     "bab_el_falla": "images/bab_el_falla/e86571d5-3cca-4fbd-8ea3-2855aac56229.jpeg",
-    "cathédrale": "images/cathédrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg",
+    "cathedrale": "images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg",
     "home": "images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg",
     "inde": "images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg",
     "jmc": "images/jmc/2ec600d9-93f1-4ca4-b6d6-baa03f206ffe.jpeg",
     "kairouan": "images/kairouan/d532f891-1979-4077-b55a-77deacdf7cc8.jpeg",
     "kerkennah": "images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg",
-    "logo": "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.jpeg",
+    "logo": "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.png",
     "mouhit": "images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg",
-    "traversée": "images/traversée/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg"
+    "traversee": "images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg"
   },
   "captions": {
     "al_ziyara": "‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.\n\n‎- شمس التبريزي\n\nCathédrale Saint Vincent de Tunis \n16-05-2025 Tunis \n\nSPECTACLE DE L'AMOUR ET LA PAIX",
     "bab_bhar": "Virée hivernale à Bab Bhar….\n\n‎لا تدع قلبك يصدأ بالأسى، ولا تبقَ طويلًا مع الغائبة قلوبهم\n\n‎– جلال الدين الرومي\n\n7 février 2025",
     "bab_el_falla": "‎دع روحك تجذبك بصمتٍ إلى ما تحبه، فإنها لن تُضلّك أبدًا.\n\n‎- جلال الدين الرومي\n\nBab El Falla \nRamadan 2025",
-    "cathédrale": "‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.\n\n‎- شمس التبريزي\n\nCathédrale Saint Vincent de Tunis \n16-05-2025 Tunis \n\nSPECTACLE DE L'AMOUR ET LA PAIX",
+    "cathedrale": "‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.\n\n‎- شمس التبريزي\n\nCathédrale Saint Vincent de Tunis \n16-05-2025 Tunis \n\nSPECTACLE DE L'AMOUR ET LA PAIX",
     "inde": "‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.\n\n‎- شمس التبريزي\n\nCathédrale Saint Vincent de Tunis \n16-05-2025 Tunis \n\nSPECTACLE DE L'AMOUR ET LA PAIX",
     "jmc": "\"قد تنظر لما أنظر، ولكنك لا ترى ما أرى...\"\n- أرسطو\n\nJournées musicales de Carthage 2025",
     "kairouan": "Sortie photographique Kairouan Janvier 2025 avec Club Photo de Tunis\n\nFragments de vie ….",
     "kerkennah": "في بحر حبك تستريح قواربي    \nوتعوم فوق صفائه اشجاني \nفأنا اذا ما مرّ طيفُك عابراً \nأنسى هموماً لم تكن تنساني\n\nمولانا جلال الدين الرومي\n\nKerkennah Janvier 2025",
     "mouhit": "\"إن المرء مع من لا يفهمه سجين.\" \n\n شمس الدين التبريزي \n\n📸Wassila Mestiri \nLoud Al Mouhit Avril 2025‎",
-    "traversée": "‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.\n\n‎-جلال الدين الرومي\n\nTraversée ……\n\nLoud ‘El Mouhit’\nSfax-Kerkennah \n\nJanvier 2025"
+    "traversee": "‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.\n\n‎-جلال الدين الرومي\n\nTraversée ……\n\nLoud ‘El Mouhit’\nSfax-Kerkennah \n\nJanvier 2025"
   }
 }
