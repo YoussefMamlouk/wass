@@ -437,45 +437,39 @@ function loadGalleryImages(folder, container, category = null) {
             imageData.folders[folder] : 
             ['images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'];
     }
-    if (folderImages.length > 0) {
-        // Clear the container first to avoid duplication
-        container.innerHTML = '';
-        
-        // Get the original text block from the DOM
-        const originalTextBlock = document.querySelector('.about-text-block');
-        
+    
+    if (folderImages.length === 0) {
+        console.error('No images found for About Me section');
+        return;
+    }
+    
+    // Store the original HTML content
+    const originalContent = container.innerHTML;
+    
+    try {
+        // Get reference to the original about-text-block without removing it
+        const originalTextBlock = container.querySelector('.about-text-block');
         if (!originalTextBlock) {
-            console.error('Could not find .about-text-block in the DOM');
-            return;
+            throw new Error('Could not find .about-text-block in the About section');
         }
         
-        // Clone it to keep the original intact
-        const textBlockClone = originalTextBlock.cloneNode(true);
+        // Get references to section header and main text without removing them
+        const sectionHeader = originalTextBlock.querySelector('.section-header');
+        const mainText = originalTextBlock.querySelector('.about-main-text');
         
-        // Extract the header and main text
-        const sectionHeader = textBlockClone.querySelector('.section-header');
-        const mainText = textBlockClone.querySelector('.about-main-text');
+        if (!sectionHeader || !mainText) {
+            throw new Error('Could not find required elements in the About section');
+        }
         
-        // Create header container for mobile (will contain just the section header)
-        const headerContainer = document.createElement('div');
-        headerContainer.className = 'about-header-block';
-        headerContainer.style.width = '100%';
-        headerContainer.style.textAlign = 'left';
-        headerContainer.style.marginBottom = '2rem';
+        // Don't remove original content yet
         
-        // Create text container (will contain just the main text paragraphs)
-        const textContainer = document.createElement('div');
-        textContainer.className = 'about-text-block';
-        textContainer.style.textAlign = 'left';
+        // Style the container
+        container.style.display = 'flex';
+        container.style.gap = '2rem';
+        container.style.padding = '2rem';
+        container.style.background = 'none';
         
-        // Create image container
-        const imageContainer = document.createElement('div');
-        imageContainer.className = 'about-image-block';
-        imageContainer.style.display = 'flex';
-        imageContainer.style.justifyContent = 'center';
-        imageContainer.style.alignItems = 'center';
-        
-        // Create and style the image
+        // Create image element that will be added
         const aboutImageSrc = folderImages[0];
         const img = document.createElement('img');
         img.src = aboutImageSrc;
@@ -485,205 +479,125 @@ function loadGalleryImages(folder, container, category = null) {
         img.style.borderRadius = '0';
         img.style.boxShadow = 'none';
         
-        // Style the container
-        container.style.display = 'flex';
-        container.style.flexWrap = 'wrap';
-        container.style.gap = '2rem';
-        container.style.padding = '2rem';
-        container.style.background = 'none';
+        // Create image container
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'about-image-block';
+        imageContainer.style.display = 'flex';
+        imageContainer.style.justifyContent = 'center';
+        imageContainer.style.alignItems = 'center';
+        imageContainer.appendChild(img);
         
-        // Check if mobile view
+        // Check if we're in mobile view
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         
         if (isMobile) {
-            // Mobile layout:
-            // 1. Section header (title + subtitle)
-            // 2. Image
-            // 3. Main text (paragraphs)
+            // Mobile Layout (Headers, Image, Text)
+            
+            // First, empty the container (now that we have references to all elements)
+            container.innerHTML = '';
+            
+            // Create header block for mobile
+            const headerContainer = document.createElement('div');
+            headerContainer.className = 'about-header-block';
+            headerContainer.style.width = '100%';
+            headerContainer.style.textAlign = 'left';
+            headerContainer.style.marginBottom = '2rem';
+            headerContainer.appendChild(sectionHeader.cloneNode(true));
+            
+            // Create text block 
+            const textContainer = document.createElement('div');
+            textContainer.className = 'about-text-block';
+            textContainer.style.textAlign = 'left';
+            textContainer.style.width = '100%';
+            textContainer.appendChild(mainText.cloneNode(true));
+            
+            // Set mobile styling
             container.style.flexDirection = 'column';
             container.style.alignItems = 'center';
             
-            // Header styling
-            headerContainer.append(sectionHeader);
-            headerContainer.style.order = '1';
-            headerContainer.style.maxWidth = '100%';
-            sectionHeader.style.marginBottom = '1.5rem';
-            
-            // Image styling
-            imageContainer.style.order = '2';
-            imageContainer.style.marginBottom = '2rem';
             imageContainer.style.maxWidth = '90%';
+            imageContainer.style.marginBottom = '2rem';
             img.style.maxHeight = '350px';
             img.style.width = 'auto';
             img.style.height = 'auto';
             
-            // Text styling
-            textContainer.append(mainText);
-            textContainer.style.order = '3';
-            textContainer.style.maxWidth = '100%';
+            // Add elements in the correct order for mobile
+            container.appendChild(headerContainer);
+            container.appendChild(imageContainer);
+            container.appendChild(textContainer);
             
-            // Apply consistent paragraph styling
-            const paragraphs = mainText.querySelectorAll('p');
+            // Style all paragraphs consistently
+            const paragraphs = textContainer.querySelectorAll('p');
             paragraphs.forEach(p => {
                 p.style.fontFamily = "'Cormorant Garamond', serif";
-                
+                p.style.fontSize = p.classList.contains('featured') ? '1.2rem' : '1rem';
+                p.style.lineHeight = '1.7';
+                p.style.marginBottom = '0.75em';
                 if (p.classList.contains('featured')) {
-                    p.style.fontSize = '1.2rem';
                     p.style.fontStyle = 'italic';
                     p.style.color = '#111';
                 } else {
-                    p.style.fontSize = '1rem';
                     p.style.color = '#333';
                 }
-                
-                p.style.lineHeight = '1.7';
-                p.style.marginBottom = '0.75em';
             });
         } else {
-            // Desktop layout - original side-by-side layout
-            container.style.flexDirection = 'row';
-            container.style.justifyContent = 'space-between';
-            container.style.alignItems = 'center';
+            // Desktop Layout (Side by side)
             
-            // Text block contains both header and text
-            textContainer.append(sectionHeader);
-            textContainer.append(mainText);
-            textContainer.style.flex = '0 1 58%';
-            textContainer.style.maxWidth = '58%';
-            textContainer.style.order = '1';
-            
-            // Image styling
+            // Position the image container
             imageContainer.style.flex = '0 1 38%';
             imageContainer.style.maxWidth = '38%';
-            imageContainer.style.order = '2';
             img.style.maxHeight = '500px';
             img.style.width = 'auto';
             img.style.height = 'auto';
             
-            // Apply consistent paragraph styling
-            const paragraphs = mainText.querySelectorAll('p');
+            // Style the text block for desktop
+            originalTextBlock.style.flex = '0 1 58%';
+            originalTextBlock.style.maxWidth = '58%';
+            originalTextBlock.style.textAlign = 'left';
+            
+            // Style all paragraphs consistently
+            const paragraphs = originalTextBlock.querySelectorAll('p');
             paragraphs.forEach(p => {
                 p.style.fontFamily = "'Cormorant Garamond', serif";
-                
+                p.style.fontSize = p.classList.contains('featured') ? '1.4rem' : '1.2rem';
+                p.style.lineHeight = '1.8';
+                p.style.marginBottom = '0.75em';
                 if (p.classList.contains('featured')) {
-                    p.style.fontSize = '1.4rem';
                     p.style.fontStyle = 'italic';
                     p.style.color = '#111';
                 } else {
-                    p.style.fontSize = '1.2rem';
                     p.style.color = '#333';
                 }
-                
-                p.style.lineHeight = '1.8';
-                p.style.marginBottom = '0.75em';
             });
-        }
-        
-        // Add elements to container
-        imageContainer.appendChild(img);
-        
-        if (isMobile) {
-            container.appendChild(headerContainer);
-            container.appendChild(imageContainer);
-            container.appendChild(textContainer);
-        } else {
-            container.appendChild(textContainer);
+            
+            // Setup container for desktop layout
+            container.style.flexDirection = 'row';
+            container.style.justifyContent = 'space-between';
+            container.style.alignItems = 'center';
+            
+            // Add the image container (text block is already in the DOM)
             container.appendChild(imageContainer);
         }
         
-        // Add resize event listener
-        const resizeListener = function() {
+        // Add window resize handler
+        const resizeHandler = function() {
             const isNowMobile = window.matchMedia('(max-width: 768px)').matches;
             
-            if (isNowMobile) {
-                // Switch to mobile layout
-                container.style.flexDirection = 'column';
-                container.style.alignItems = 'center';
-                
-                // Make sure header is first, then image, then text
-                if (container.contains(headerContainer)) {
-                    headerContainer.style.order = '1';
-                    imageContainer.style.order = '2';
-                    textContainer.style.order = '3';
-                } else {
-                    // If headerContainer was removed, recreate the structure
-                    container.innerHTML = '';
-                    
-                    // Move section header to header container
-                    headerContainer.innerHTML = '';
-                    headerContainer.append(sectionHeader);
-                    
-                    // Update styling
-                    headerContainer.style.maxWidth = '100%';
-                    imageContainer.style.maxWidth = '90%';
-                    textContainer.style.maxWidth = '100%';
-                    img.style.maxHeight = '350px';
-                    
-                    // Update paragraphs
-                    const paragraphs = mainText.querySelectorAll('p');
-                    paragraphs.forEach(p => {
-                        p.style.fontSize = p.classList.contains('featured') ? '1.2rem' : '1rem';
-                        p.style.lineHeight = '1.7';
-                    });
-                    
-                    // Re-add elements in correct order
-                    container.appendChild(headerContainer);
-                    container.appendChild(imageContainer);
-                    container.appendChild(textContainer);
-                }
-            } else {
-                // Switch to desktop layout
-                container.style.flexDirection = 'row';
-                container.style.justifyContent = 'space-between';
-                container.style.alignItems = 'center';
-                
-                // Reorganize for desktop view
-                container.innerHTML = '';
-                
-                // Combine header and text into text container
-                textContainer.innerHTML = '';
-                textContainer.append(sectionHeader);
-                textContainer.append(mainText);
-                
-                // Update styling
-                textContainer.style.flex = '0 1 58%';
-                textContainer.style.maxWidth = '58%';
-                textContainer.style.order = '1';
-                
-                imageContainer.style.flex = '0 1 38%';
-                imageContainer.style.maxWidth = '38%';
-                imageContainer.style.order = '2';
-                img.style.maxHeight = '500px';
-                
-                // Update paragraphs
-                const paragraphs = mainText.querySelectorAll('p');
-                paragraphs.forEach(p => {
-                    p.style.fontSize = p.classList.contains('featured') ? '1.4rem' : '1.2rem';
-                    p.style.lineHeight = '1.8';
-                });
-                
-                // Re-add elements in correct order
-                container.appendChild(textContainer);
-                container.appendChild(imageContainer);
+            // If viewport size changed between mobile/desktop, reload the page
+            // This is the simplest solution to handle the complex re-arrangement
+            if ((isNowMobile && !isMobile) || (!isNowMobile && isMobile)) {
+                window.location.reload();
             }
         };
         
-        // Remove any existing resize listeners to avoid duplicates
-        window.removeEventListener('resize', resizeListener);
-        window.addEventListener('resize', resizeListener);
+        // Clean up any previous handlers
+        window.removeEventListener('resize', resizeHandler);
+        window.addEventListener('resize', resizeHandler);
         
-        console.log(`Created About Me layout with image: ${aboutImageSrc}`);
-    } else {
-        // Fallback for no images
-        const img = document.createElement('img');
-        img.src = placeholderImage;
-        img.alt = 'About Me';
-        img.style.width = '50%';
-        img.style.height = 'auto';
-        img.style.display = 'block';
-        img.style.margin = '0 auto';
-        container.appendChild(img);
-        console.log(`No images found for About Me, using placeholder`);
+    } catch (error) {
+        console.error('Error setting up About Me section:', error);
+        // Restore original content if there was an error
+        container.innerHTML = originalContent;
     }
 }
 
