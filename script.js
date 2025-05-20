@@ -440,22 +440,41 @@ function loadGalleryImages(folder, container, category = null) {
     if (folderImages.length > 0) {
         // Style the main container (.about-gallery)
         container.style.display = 'flex';
-        container.style.alignItems = 'center'; // Reverted from stretch
         container.style.justifyContent = 'space-between';
         container.style.gap = '2rem'; 
         container.style.padding = '2rem'; 
         container.style.background = 'none';
+        
+        // Use media queries to make layout responsive
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        
+        if (isMobile) {
+            // Mobile layout
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+        } else {
+            // Desktop layout
+            container.style.flexDirection = 'row';
+            container.style.alignItems = 'center';
+        }
 
         // Style the text block (assuming it's the first child of container)
         const textBlock = container.children[0];
         if (textBlock && textBlock.classList.contains('about-text-block')) {
-            textBlock.style.flex = '0 1 58%'; 
-            textBlock.style.maxWidth = '58%';
+            if (isMobile) {
+                // Mobile text block styling
+                textBlock.style.flex = '1 1 100%';
+                textBlock.style.maxWidth = '100%';
+                textBlock.style.order = '1'; // Text first on mobile
+                textBlock.style.marginBottom = '2rem';
+            } else {
+                // Desktop text block styling
+                textBlock.style.flex = '0 1 58%'; 
+                textBlock.style.maxWidth = '58%';
+                textBlock.style.order = '0';
+                textBlock.style.marginBottom = '0';
+            }
             textBlock.style.textAlign = 'left';
-            // Removed flex properties for textBlock, it will behave as a normal block
-            textBlock.style.display = ''; // Reset display property
-            textBlock.style.flexDirection = ''; // Reset flexDirection
-            textBlock.style.justifyContent = ''; // Reset justifyContent
         } else {
             console.warn('Could not find .about-text-block as the first child of .about-gallery');
         }
@@ -467,11 +486,22 @@ function loadGalleryImages(folder, container, category = null) {
         // Create image container block
         const imageContainer = document.createElement('div');
         imageContainer.className = 'about-image-block';
-        imageContainer.style.flex = '0 1 38%'; 
-        imageContainer.style.maxWidth = '38%';
+        
+        if (isMobile) {
+            // Mobile image container styling
+            imageContainer.style.flex = '1 1 100%';
+            imageContainer.style.maxWidth = '90%';
+            imageContainer.style.order = '0'; // Image first on mobile
+        } else {
+            // Desktop image container styling
+            imageContainer.style.flex = '0 1 38%'; 
+            imageContainer.style.maxWidth = '38%';
+            imageContainer.style.order = '1';
+        }
+        
         imageContainer.style.display = 'flex';
         imageContainer.style.justifyContent = 'center'; 
-        imageContainer.style.alignItems = 'center'; // Center image vertically within its block
+        imageContainer.style.alignItems = 'center';
 
         // Create and style the image
         const aboutImageSrc = folderImages[0];
@@ -479,7 +509,7 @@ function loadGalleryImages(folder, container, category = null) {
         img.src = aboutImageSrc;
         img.alt = 'About Me';
         img.style.maxWidth = '100%'; 
-        img.style.maxHeight = '500px'; 
+        img.style.maxHeight = isMobile ? '350px' : '500px'; 
         img.style.width = 'auto';   
         img.style.height = 'auto';   
         img.style.display = 'block';
@@ -488,6 +518,43 @@ function loadGalleryImages(folder, container, category = null) {
 
         imageContainer.appendChild(img);
         container.appendChild(imageContainer);
+
+        // Add resize event listener to handle orientation changes
+        window.addEventListener('resize', function() {
+            const isNowMobile = window.matchMedia('(max-width: 768px)').matches;
+            
+            if (isNowMobile) {
+                // Update to mobile layout
+                container.style.flexDirection = 'column';
+                container.style.alignItems = 'center';
+                
+                textBlock.style.flex = '1 1 100%';
+                textBlock.style.maxWidth = '100%';
+                textBlock.style.order = '1';
+                textBlock.style.marginBottom = '2rem';
+                
+                imageContainer.style.flex = '1 1 100%';
+                imageContainer.style.maxWidth = '90%';
+                imageContainer.style.order = '0';
+                
+                img.style.maxHeight = '350px';
+            } else {
+                // Update to desktop layout
+                container.style.flexDirection = 'row';
+                container.style.alignItems = 'center';
+                
+                textBlock.style.flex = '0 1 58%';
+                textBlock.style.maxWidth = '58%';
+                textBlock.style.order = '0';
+                textBlock.style.marginBottom = '0';
+                
+                imageContainer.style.flex = '0 1 38%';
+                imageContainer.style.maxWidth = '38%';
+                imageContainer.style.order = '1';
+                
+                img.style.maxHeight = '500px';
+            }
+        });
 
         console.log(`Created About Me layout with image: ${aboutImageSrc}`);
     } else {
