@@ -14,7 +14,7 @@ const nextBtn = document.querySelector('.next');
 // Project folders based on requirements
 const projectFolders = ['kerkennah', 'al_ziyara', 'jmc'];
 // All other folders except home, logo, and about_me will be albums
-const albumFolders = ['traversee', 'kairouan', 'inde', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale'];
+const albumFolders = ['traversee', 'kairouan', 'inde', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte'];
 
 // Current gallery images and index for modal navigation
 let currentGallery = [];
@@ -81,6 +81,7 @@ const getFirstImageFromFolder = (folder) => {
         'bab_el_falla': 'images/bab_el_falla/e86571d5-3cca-4fbd-8ea3-2855aac56229.jpeg',
         'mouhit': 'images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg',
         'cathedrale': 'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
+        'bizerte': 'images/bizerte/f498c6e7-2035-443c-be1c-f2c550f4cb63.jpeg', // Add first image from Bizerte folder
         'home': 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
     };
     
@@ -156,7 +157,9 @@ Loud Al Mouhit Avril 2025‎`,
 Cathédrale Saint Vincent de Tunis 
 16-05-2025 Tunis 
 
-SPECTACLE DE L'AMOUR ET LA PAIX`
+SPECTACLE DE L'AMOUR ET LA PAIX`,
+    'bizerte': `‎قفزة من جدار الصمت - بنزرت 12 ماي 2025
+`
 };
 
 // Function to get caption for a folder
