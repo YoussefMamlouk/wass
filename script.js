@@ -443,25 +443,55 @@ function loadGalleryImages(folder, container, category = null) {
         return;
     }
     
-    // Store the original HTML content
-    const originalContent = container.innerHTML;
-    
     try {
-        // Get reference to the original about-text-block without removing it
-        const originalTextBlock = container.querySelector('.about-text-block');
-        if (!originalTextBlock) {
-            throw new Error('Could not find .about-text-block in the About section');
+        // First, check if the HTML document contains the correct structure
+        const aboutSection = document.getElementById('about');
+        if (!aboutSection) {
+            throw new Error('Could not find the About section in the document');
         }
         
-        // Get references to section header and main text without removing them
-        const sectionHeader = originalTextBlock.querySelector('.section-header');
-        const mainText = originalTextBlock.querySelector('.about-main-text');
+        console.log('About section found:', aboutSection);
+        
+        // Store the original HTML content
+        const originalContent = container.innerHTML;
+        console.log('Original container content:', originalContent);
+        
+        // Make sure we have the about-text-block INSIDE the container
+        const originalTextBlock = container.querySelector('.about-text-block');
+        console.log('Original text block inside container:', originalTextBlock);
+        
+        if (!originalTextBlock) {
+            console.warn('Could not find .about-text-block in the container, trying to find it in the about section');
+            // Fallback - look in the entire about section
+            const textBlockInSection = aboutSection.querySelector('.about-text-block');
+            
+            if (!textBlockInSection) {
+                throw new Error('Could not find .about-text-block anywhere in the About section');
+            }
+            
+            console.log('Text block found in about section:', textBlockInSection);
+            // If we found it in the section but not in the container, the structure might be different
+            // Reconstruct the container with proper markup
+            container.innerHTML = '';
+            const textBlockClone = textBlockInSection.cloneNode(true);
+            container.appendChild(textBlockClone);
+        }
+        
+        // Now we should have the text block in the container
+        const textBlock = container.querySelector('.about-text-block');
+        if (!textBlock) {
+            throw new Error('Still could not find .about-text-block after reconstruction');
+        }
+        
+        // Get references to section header and main text
+        const sectionHeader = textBlock.querySelector('.section-header');
+        const mainText = textBlock.querySelector('.about-main-text');
         
         if (!sectionHeader || !mainText) {
             throw new Error('Could not find required elements in the About section');
         }
         
-        // Don't remove original content yet
+        console.log('Found all required elements:', {sectionHeader, mainText});
         
         // Style the container
         container.style.display = 'flex';
@@ -493,7 +523,11 @@ function loadGalleryImages(folder, container, category = null) {
         if (isMobile) {
             // Mobile Layout (Headers, Image, Text)
             
-            // First, empty the container (now that we have references to all elements)
+            // First, save the elements before clearing the container
+            const sectionHeaderClone = sectionHeader.cloneNode(true);
+            const mainTextClone = mainText.cloneNode(true);
+            
+            // Empty the container
             container.innerHTML = '';
             
             // Create header block for mobile
@@ -502,14 +536,14 @@ function loadGalleryImages(folder, container, category = null) {
             headerContainer.style.width = '100%';
             headerContainer.style.textAlign = 'left';
             headerContainer.style.marginBottom = '2rem';
-            headerContainer.appendChild(sectionHeader.cloneNode(true));
+            headerContainer.appendChild(sectionHeaderClone);
             
             // Create text block 
             const textContainer = document.createElement('div');
             textContainer.className = 'about-text-block';
             textContainer.style.textAlign = 'left';
             textContainer.style.width = '100%';
-            textContainer.appendChild(mainText.cloneNode(true));
+            textContainer.appendChild(mainTextClone);
             
             // Set mobile styling
             container.style.flexDirection = 'column';
@@ -551,12 +585,12 @@ function loadGalleryImages(folder, container, category = null) {
             img.style.height = 'auto';
             
             // Style the text block for desktop
-            originalTextBlock.style.flex = '0 1 58%';
-            originalTextBlock.style.maxWidth = '58%';
-            originalTextBlock.style.textAlign = 'left';
+            textBlock.style.flex = '0 1 58%';
+            textBlock.style.maxWidth = '58%';
+            textBlock.style.textAlign = 'left';
             
             // Style all paragraphs consistently
-            const paragraphs = originalTextBlock.querySelectorAll('p');
+            const paragraphs = textBlock.querySelectorAll('p');
             paragraphs.forEach(p => {
                 p.style.fontFamily = "'Cormorant Garamond', serif";
                 p.style.fontSize = p.classList.contains('featured') ? '1.4rem' : '1.2rem';
@@ -579,26 +613,149 @@ function loadGalleryImages(folder, container, category = null) {
             container.appendChild(imageContainer);
         }
         
-        // Add window resize handler
+        // Add window resize handler with a simpler approach
         const resizeHandler = function() {
-            const isNowMobile = window.matchMedia('(max-width: 768px)').matches;
-            
-            // If viewport size changed between mobile/desktop, reload the page
-            // This is the simplest solution to handle the complex re-arrangement
-            if ((isNowMobile && !isMobile) || (!isNowMobile && isMobile)) {
-                window.location.reload();
-            }
+            window.location.reload(); // Simply reload the page on resize
         };
         
-        // Clean up any previous handlers
+        // Debounce the resize event to avoid multiple reloads
+        let resizeTimeout;
         window.removeEventListener('resize', resizeHandler);
-        window.addEventListener('resize', resizeHandler);
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeHandler, 500);
+        });
+        
+        console.log('Successfully set up About Me section');
         
     } catch (error) {
         console.error('Error setting up About Me section:', error);
-        // Restore original content if there was an error
-        container.innerHTML = originalContent;
+        // We'll create a simple fallback layout
+        createFallbackAboutSection(container, folderImages[0]);
     }
+}
+
+// Fallback function to ensure the About section always appears
+function createFallbackAboutSection(container, imageSrc) {
+    console.log('Creating fallback About section');
+    
+    // Get the about section
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) {
+        console.error('Cannot create fallback - About section not found');
+        return;
+    }
+    
+    // Get the container inside the about section
+    const aboutContainer = aboutSection.querySelector('.container');
+    if (!aboutContainer) {
+        console.error('Cannot create fallback - Container not found in About section');
+        return;
+    }
+    
+    // Clear and recreate the container's content
+    container.innerHTML = '';
+    
+    // Create a simple structure with image and text
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    
+    // Create header
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = '<h2>About Me</h2><p class="subtitle">Capturing authentic moments through a unique lens</p>';
+    
+    // Create text content
+    const textContent = document.createElement('div');
+    textContent.className = 'about-main-text';
+    textContent.innerHTML = `
+        <p class="featured">Welcome to my portfolio. I am Wassila Mestiri, a contemporary photographer focusing on capturing life's authentic moments and creating visual narratives that speak to the soul.</p>
+        <p>Through my work, I seek to explore the boundaries between reality and artistic expression, creating images that evoke emotion and tell stories. Each photograph is a careful composition of light, moment, and emotion.</p>
+        <p>My photography journey has taken me through diverse landscapes and cultures, always searching for that perfect blend of authenticity and aesthetic.</p>
+    `;
+    
+    // Create image
+    const img = document.createElement('img');
+    img.src = imageSrc || 'images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg';
+    img.alt = 'About Me';
+    img.style.maxWidth = '100%';
+    img.style.display = 'block';
+    img.style.maxHeight = isMobile ? '350px' : '500px';
+    img.style.width = 'auto';
+    img.style.height = 'auto';
+    img.style.margin = isMobile ? '2rem auto' : '0 auto';
+    
+    // Create the containers
+    container.style.display = 'flex';
+    container.style.flexDirection = isMobile ? 'column' : 'row';
+    container.style.alignItems = 'center';
+    container.style.gap = '2rem';
+    container.style.padding = '2rem';
+    
+    // Create text block that will contain header and text
+    const textBlock = document.createElement('div');
+    textBlock.className = 'about-text-block';
+    textBlock.style.flex = isMobile ? '1 1 100%' : '0 1 58%';
+    textBlock.style.maxWidth = isMobile ? '100%' : '58%';
+    textBlock.style.textAlign = 'left';
+    
+    // Create image container
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'about-image-block';
+    imageContainer.style.flex = isMobile ? '1 1 100%' : '0 1 38%';
+    imageContainer.style.maxWidth = isMobile ? '90%' : '38%';
+    imageContainer.style.display = 'flex';
+    imageContainer.style.justifyContent = 'center';
+    imageContainer.style.alignItems = 'center';
+    
+    // Assemble the components
+    textBlock.appendChild(header);
+    textBlock.appendChild(textContent);
+    imageContainer.appendChild(img);
+    
+    if (isMobile) {
+        // Mobile order: header, image, text
+        const headerOnly = document.createElement('div');
+        headerOnly.className = 'about-header-block';
+        headerOnly.style.width = '100%';
+        headerOnly.style.marginBottom = '1.5rem';
+        headerOnly.appendChild(header);
+        
+        const textOnly = document.createElement('div');
+        textOnly.className = 'about-text-block';
+        textOnly.style.width = '100%';
+        textOnly.appendChild(textContent);
+        
+        container.appendChild(headerOnly);
+        container.appendChild(imageContainer);
+        container.appendChild(textOnly);
+    } else {
+        // Desktop: side-by-side
+        container.appendChild(textBlock);
+        container.appendChild(imageContainer);
+    }
+    
+    // Style paragraphs
+    const paragraphs = container.querySelectorAll('p');
+    paragraphs.forEach(p => {
+        p.style.fontFamily = "'Cormorant Garamond', serif";
+        if (p.classList.contains('featured')) {
+            p.style.fontSize = isMobile ? '1.2rem' : '1.4rem';
+            p.style.fontStyle = 'italic';
+            p.style.color = '#111';
+        } else if (p.classList.contains('subtitle')) {
+            // Style for subtitle
+            p.style.fontSize = '1.1rem';
+            p.style.color = '#777';
+            p.style.fontWeight = '400';
+        } else {
+            p.style.fontSize = isMobile ? '1rem' : '1.2rem';
+            p.style.color = '#333';
+        }
+        p.style.lineHeight = isMobile ? '1.7' : '1.8';
+        p.style.marginBottom = '0.75em';
+    });
+    
+    console.log('Fallback About section created successfully');
 }
 
 // Helper function to create a gallery item (for About Me section)
