@@ -27,6 +27,10 @@ body {
     font-weight: 300;
 }
 
+body.menu-open {
+    overflow: hidden;
+}
+
 .container {
     width: 90%;
     max-width: 1400px;
@@ -181,6 +185,12 @@ nav ul li a:hover:after, nav ul li a.active:after {
     display: none;
     font-size: 1.5rem;
     cursor: pointer;
+    transition: var(--transition);
+    z-index: 1100;
+}
+
+.menu-toggle.active {
+    color: var(--accent-color);
 }
 
 /* Hero Section */
@@ -691,6 +701,7 @@ footer {
     background-color: rgba(0, 0, 0, 0.95);
     z-index: 2000;
     overflow: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-content {
@@ -817,6 +828,15 @@ footer {
         margin-left: 0;
         margin-right: 1rem;
     }
+
+    .projects-filters {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .filter-btn {
+        margin: 0.25rem;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -835,6 +855,7 @@ footer {
         padding: 5rem 2rem;
         transition: var(--transition);
         box-shadow: var(--shadow);
+        z-index: 1000;
     }
     
     nav.active {
@@ -847,6 +868,11 @@ footer {
     
     nav ul li {
         margin: 1rem 0;
+        margin-left: 0;
+    }
+    
+    nav ul li a {
+        font-size: 1rem;
     }
     
     .hero h1 {
@@ -864,15 +890,34 @@ footer {
     blockquote {
         font-size: 1.5rem;
     }
+    
+    .modal-nav {
+        font-size: 1.5rem;
+        padding: 0.75rem;
+    }
+    
+    .prev {
+        left: 10px;
+    }
+    
+    .next {
+        right: 10px;
+    }
+    
+    .close {
+        top: 15px;
+        right: 20px;
+    }
 }
 
 @media screen and (max-width: 576px) {
     .container {
-        width: 85%;
+        width: 90%;
+        padding: 2rem 0;
     }
     
     section {
-        padding: 4rem 0;
+        padding: 3rem 0;
     }
     
     h2 {
@@ -890,6 +935,7 @@ footer {
     .projects-gallery,
     .albums-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .gallery-item img,
@@ -899,6 +945,58 @@ footer {
     
     .feature-content h2 {
         font-size: 2.5rem;
+    }
+    
+    .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .hero-buttons .btn {
+        margin: 0;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 400px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 0.9rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    .gallery-item img,
+    .album-item img {
+        height: 300px;
+    }
+    
+    .info-item {
+        flex-wrap: wrap;
+    }
+    
+    .modal-content {
+        max-width: 95%;
+    }
+    
+    .caption {
+        font-size: 1rem;
     }
 }
 

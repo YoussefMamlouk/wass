@@ -180,6 +180,8 @@ window.addEventListener('scroll', () => {
 menuToggle.addEventListener('click', () => {
     nav.classList.toggle('active');
     menuToggle.classList.toggle('active');
+    // Prevent body scrolling when menu is open
+    document.body.classList.toggle('menu-open');
 });
 
 // Close mobile menu when clicking a link
@@ -187,11 +189,24 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         nav.classList.remove('active');
         menuToggle.classList.remove('active');
+        document.body.classList.remove('menu-open');
         
         // Update active link
         navLinks.forEach(navLink => navLink.classList.remove('active'));
         link.classList.add('active');
     });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (nav.classList.contains('active') && 
+        !nav.contains(e.target) && 
+        e.target !== menuToggle && 
+        !menuToggle.contains(e.target)) {
+        nav.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.classList.remove('menu-open');
+    }
 });
 
 // Update active link on scroll
@@ -372,25 +387,43 @@ closeBtn.addEventListener('click', closeModal);
 prevBtn.addEventListener('click', showPrevImage);
 nextBtn.addEventListener('click', showNextImage);
 
-// Close modal when clicking outside
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        closeModal();
-    }
-});
-
 // Keyboard navigation for modal
 window.addEventListener('keydown', (e) => {
     if (modal.style.display === 'block') {
-        if (e.key === 'Escape') {
-            closeModal();
-        } else if (e.key === 'ArrowLeft') {
+        if (e.key === 'ArrowLeft') {
             showPrevImage();
         } else if (e.key === 'ArrowRight') {
             showNextImage();
+        } else if (e.key === 'Escape') {
+            closeModal();
         }
     }
 });
+
+// Touch swipe support for modal
+let touchStartX = 0;
+let touchEndX = 0;
+
+modal.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+modal.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left, show next image
+        showNextImage();
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right, show previous image
+        showPrevImage();
+    }
+}
 
 // Helper function to load gallery images (for About Me section only)
 function loadGalleryImages(folder, container, category = null) {
