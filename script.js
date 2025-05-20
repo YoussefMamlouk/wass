@@ -438,166 +438,240 @@ function loadGalleryImages(folder, container, category = null) {
             ['images/about_me/fa4f3caa-1226-47d4-8e5b-51d49104fa0d.jpeg'];
     }
     if (folderImages.length > 0) {
-        // Style the main container (.about-gallery)
-        container.style.display = 'flex';
-        container.style.justifyContent = 'space-between';
-        container.style.gap = '2rem'; 
-        container.style.padding = '2rem'; 
-        container.style.background = 'none';
+        // Clear the container first to avoid duplication
+        container.innerHTML = '';
         
-        // Use media queries to make layout responsive
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        // Get the original text block from the DOM
+        const originalTextBlock = document.querySelector('.about-text-block');
         
-        if (isMobile) {
-            // Mobile layout
-            container.style.flexDirection = 'column';
-            container.style.alignItems = 'center';
-        } else {
-            // Desktop layout
-            container.style.flexDirection = 'row';
-            container.style.alignItems = 'center';
+        if (!originalTextBlock) {
+            console.error('Could not find .about-text-block in the DOM');
+            return;
         }
-
-        // Style the text block (assuming it's the first child of container)
-        const textBlock = container.children[0];
-        if (textBlock && textBlock.classList.contains('about-text-block')) {
-            if (isMobile) {
-                // Mobile text block styling
-                textBlock.style.flex = '1 1 100%';
-                textBlock.style.maxWidth = '100%';
-                textBlock.style.order = '1'; // Text first on mobile
-                textBlock.style.marginBottom = '2rem';
-            } else {
-                // Desktop text block styling
-                textBlock.style.flex = '0 1 58%'; 
-                textBlock.style.maxWidth = '58%';
-                textBlock.style.order = '0';
-                textBlock.style.marginBottom = '0';
-            }
-            textBlock.style.textAlign = 'left';
-            
-            // Ensure consistent paragraph styling
-            const aboutMainText = textBlock.querySelector('.about-main-text');
-            if (aboutMainText) {
-                const paragraphs = aboutMainText.querySelectorAll('p');
-                paragraphs.forEach(p => {
-                    // Apply consistent font family
-                    p.style.fontFamily = "'Cormorant Garamond', serif";
-                    
-                    if (p.classList.contains('featured')) {
-                        p.style.fontSize = isMobile ? '1.2rem' : '1.4rem';
-                        p.style.fontStyle = 'italic';
-                        p.style.color = '#111';
-                    } else {
-                        p.style.fontSize = isMobile ? '1rem' : '1.2rem';
-                        p.style.color = '#333';
-                    }
-                    
-                    p.style.lineHeight = isMobile ? '1.7' : '1.8';
-                    p.style.marginBottom = '0.75em';
-                });
-            }
-        } else {
-            console.warn('Could not find .about-text-block as the first child of .about-gallery');
-        }
-
-        // Remove any previous image container to avoid duplicates
-        const oldImageBlock = container.querySelector('.about-image-block');
-        if (oldImageBlock) oldImageBlock.remove();
-
-        // Create image container block
+        
+        // Clone it to keep the original intact
+        const textBlockClone = originalTextBlock.cloneNode(true);
+        
+        // Extract the header and main text
+        const sectionHeader = textBlockClone.querySelector('.section-header');
+        const mainText = textBlockClone.querySelector('.about-main-text');
+        
+        // Create header container for mobile (will contain just the section header)
+        const headerContainer = document.createElement('div');
+        headerContainer.className = 'about-header-block';
+        headerContainer.style.width = '100%';
+        headerContainer.style.textAlign = 'left';
+        headerContainer.style.marginBottom = '2rem';
+        
+        // Create text container (will contain just the main text paragraphs)
+        const textContainer = document.createElement('div');
+        textContainer.className = 'about-text-block';
+        textContainer.style.textAlign = 'left';
+        
+        // Create image container
         const imageContainer = document.createElement('div');
         imageContainer.className = 'about-image-block';
-        
-        if (isMobile) {
-            // Mobile image container styling
-            imageContainer.style.flex = '1 1 100%';
-            imageContainer.style.maxWidth = '90%';
-            imageContainer.style.order = '0'; // Image first on mobile
-        } else {
-            // Desktop image container styling
-            imageContainer.style.flex = '0 1 38%'; 
-            imageContainer.style.maxWidth = '38%';
-            imageContainer.style.order = '1';
-        }
-        
         imageContainer.style.display = 'flex';
-        imageContainer.style.justifyContent = 'center'; 
+        imageContainer.style.justifyContent = 'center';
         imageContainer.style.alignItems = 'center';
-
+        
         // Create and style the image
         const aboutImageSrc = folderImages[0];
         const img = document.createElement('img');
         img.src = aboutImageSrc;
         img.alt = 'About Me';
-        img.style.maxWidth = '100%'; 
-        img.style.maxHeight = isMobile ? '350px' : '500px'; 
-        img.style.width = 'auto';   
-        img.style.height = 'auto';   
+        img.style.maxWidth = '100%';
         img.style.display = 'block';
-        img.style.borderRadius = '0'; 
+        img.style.borderRadius = '0';
         img.style.boxShadow = 'none';
-
+        
+        // Style the container
+        container.style.display = 'flex';
+        container.style.flexWrap = 'wrap';
+        container.style.gap = '2rem';
+        container.style.padding = '2rem';
+        container.style.background = 'none';
+        
+        // Check if mobile view
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        
+        if (isMobile) {
+            // Mobile layout:
+            // 1. Section header (title + subtitle)
+            // 2. Image
+            // 3. Main text (paragraphs)
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+            
+            // Header styling
+            headerContainer.append(sectionHeader);
+            headerContainer.style.order = '1';
+            headerContainer.style.maxWidth = '100%';
+            sectionHeader.style.marginBottom = '1.5rem';
+            
+            // Image styling
+            imageContainer.style.order = '2';
+            imageContainer.style.marginBottom = '2rem';
+            imageContainer.style.maxWidth = '90%';
+            img.style.maxHeight = '350px';
+            img.style.width = 'auto';
+            img.style.height = 'auto';
+            
+            // Text styling
+            textContainer.append(mainText);
+            textContainer.style.order = '3';
+            textContainer.style.maxWidth = '100%';
+            
+            // Apply consistent paragraph styling
+            const paragraphs = mainText.querySelectorAll('p');
+            paragraphs.forEach(p => {
+                p.style.fontFamily = "'Cormorant Garamond', serif";
+                
+                if (p.classList.contains('featured')) {
+                    p.style.fontSize = '1.2rem';
+                    p.style.fontStyle = 'italic';
+                    p.style.color = '#111';
+                } else {
+                    p.style.fontSize = '1rem';
+                    p.style.color = '#333';
+                }
+                
+                p.style.lineHeight = '1.7';
+                p.style.marginBottom = '0.75em';
+            });
+        } else {
+            // Desktop layout - original side-by-side layout
+            container.style.flexDirection = 'row';
+            container.style.justifyContent = 'space-between';
+            container.style.alignItems = 'center';
+            
+            // Text block contains both header and text
+            textContainer.append(sectionHeader);
+            textContainer.append(mainText);
+            textContainer.style.flex = '0 1 58%';
+            textContainer.style.maxWidth = '58%';
+            textContainer.style.order = '1';
+            
+            // Image styling
+            imageContainer.style.flex = '0 1 38%';
+            imageContainer.style.maxWidth = '38%';
+            imageContainer.style.order = '2';
+            img.style.maxHeight = '500px';
+            img.style.width = 'auto';
+            img.style.height = 'auto';
+            
+            // Apply consistent paragraph styling
+            const paragraphs = mainText.querySelectorAll('p');
+            paragraphs.forEach(p => {
+                p.style.fontFamily = "'Cormorant Garamond', serif";
+                
+                if (p.classList.contains('featured')) {
+                    p.style.fontSize = '1.4rem';
+                    p.style.fontStyle = 'italic';
+                    p.style.color = '#111';
+                } else {
+                    p.style.fontSize = '1.2rem';
+                    p.style.color = '#333';
+                }
+                
+                p.style.lineHeight = '1.8';
+                p.style.marginBottom = '0.75em';
+            });
+        }
+        
+        // Add elements to container
         imageContainer.appendChild(img);
-        container.appendChild(imageContainer);
-
-        // Add resize event listener to handle orientation changes
-        window.addEventListener('resize', function() {
+        
+        if (isMobile) {
+            container.appendChild(headerContainer);
+            container.appendChild(imageContainer);
+            container.appendChild(textContainer);
+        } else {
+            container.appendChild(textContainer);
+            container.appendChild(imageContainer);
+        }
+        
+        // Add resize event listener
+        const resizeListener = function() {
             const isNowMobile = window.matchMedia('(max-width: 768px)').matches;
             
             if (isNowMobile) {
-                // Update to mobile layout
+                // Switch to mobile layout
                 container.style.flexDirection = 'column';
                 container.style.alignItems = 'center';
                 
-                textBlock.style.flex = '1 1 100%';
-                textBlock.style.maxWidth = '100%';
-                textBlock.style.order = '1';
-                textBlock.style.marginBottom = '2rem';
-                
-                imageContainer.style.flex = '1 1 100%';
-                imageContainer.style.maxWidth = '90%';
-                imageContainer.style.order = '0';
-                
-                img.style.maxHeight = '350px';
-                
-                // Update paragraph styling for mobile
-                const aboutMainText = textBlock.querySelector('.about-main-text');
-                if (aboutMainText) {
-                    const paragraphs = aboutMainText.querySelectorAll('p');
+                // Make sure header is first, then image, then text
+                if (container.contains(headerContainer)) {
+                    headerContainer.style.order = '1';
+                    imageContainer.style.order = '2';
+                    textContainer.style.order = '3';
+                } else {
+                    // If headerContainer was removed, recreate the structure
+                    container.innerHTML = '';
+                    
+                    // Move section header to header container
+                    headerContainer.innerHTML = '';
+                    headerContainer.append(sectionHeader);
+                    
+                    // Update styling
+                    headerContainer.style.maxWidth = '100%';
+                    imageContainer.style.maxWidth = '90%';
+                    textContainer.style.maxWidth = '100%';
+                    img.style.maxHeight = '350px';
+                    
+                    // Update paragraphs
+                    const paragraphs = mainText.querySelectorAll('p');
                     paragraphs.forEach(p => {
                         p.style.fontSize = p.classList.contains('featured') ? '1.2rem' : '1rem';
                         p.style.lineHeight = '1.7';
                     });
+                    
+                    // Re-add elements in correct order
+                    container.appendChild(headerContainer);
+                    container.appendChild(imageContainer);
+                    container.appendChild(textContainer);
                 }
             } else {
-                // Update to desktop layout
+                // Switch to desktop layout
                 container.style.flexDirection = 'row';
+                container.style.justifyContent = 'space-between';
                 container.style.alignItems = 'center';
                 
-                textBlock.style.flex = '0 1 58%';
-                textBlock.style.maxWidth = '58%';
-                textBlock.style.order = '0';
-                textBlock.style.marginBottom = '0';
+                // Reorganize for desktop view
+                container.innerHTML = '';
+                
+                // Combine header and text into text container
+                textContainer.innerHTML = '';
+                textContainer.append(sectionHeader);
+                textContainer.append(mainText);
+                
+                // Update styling
+                textContainer.style.flex = '0 1 58%';
+                textContainer.style.maxWidth = '58%';
+                textContainer.style.order = '1';
                 
                 imageContainer.style.flex = '0 1 38%';
                 imageContainer.style.maxWidth = '38%';
-                imageContainer.style.order = '1';
-                
+                imageContainer.style.order = '2';
                 img.style.maxHeight = '500px';
                 
-                // Update paragraph styling for desktop
-                const aboutMainText = textBlock.querySelector('.about-main-text');
-                if (aboutMainText) {
-                    const paragraphs = aboutMainText.querySelectorAll('p');
-                    paragraphs.forEach(p => {
-                        p.style.fontSize = p.classList.contains('featured') ? '1.4rem' : '1.2rem';
-                        p.style.lineHeight = '1.8';
-                    });
-                }
+                // Update paragraphs
+                const paragraphs = mainText.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    p.style.fontSize = p.classList.contains('featured') ? '1.4rem' : '1.2rem';
+                    p.style.lineHeight = '1.8';
+                });
+                
+                // Re-add elements in correct order
+                container.appendChild(textContainer);
+                container.appendChild(imageContainer);
             }
-        });
-
+        };
+        
+        // Remove any existing resize listeners to avoid duplicates
+        window.removeEventListener('resize', resizeListener);
+        window.addEventListener('resize', resizeListener);
+        
         console.log(`Created About Me layout with image: ${aboutImageSrc}`);
     } else {
         // Fallback for no images
