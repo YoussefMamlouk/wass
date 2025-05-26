@@ -383,12 +383,30 @@ function initProjectPage(folder) {
     // Extract location and date information if available in the caption
     const caption = getFolderCaption(folder);
     if (caption) {
-        const captionLines = caption.split('\n');
-        const locationLine = captionLines.find(line => 
-            !line.startsWith('‎') && !line.match(/^[\u0600-\u06FF]/) && line.trim() !== ''
-        );
-        if (locationLine) {
-            projectSubtitle.textContent = locationLine.trim();
+        let subtitle = '';
+        
+        // Special handling for different projects
+        if (folder === 'bizerte') {
+            // For Bizerte, extract the location and date from the first line
+            const firstLine = caption.split('\n')[0];
+            // Extract the part after the dash which contains location and date
+            const match = firstLine.match(/- (.+)$/);
+            if (match) {
+                subtitle = match[1].trim(); // "بنزرت 12 ماي 2025"
+            }
+        } else {
+            // For other projects, find the first non-Arabic line
+            const captionLines = caption.split('\n');
+            const locationLine = captionLines.find(line => 
+                !line.startsWith('‎') && !line.match(/^[\u0600-\u06FF]/) && line.trim() !== ''
+            );
+            if (locationLine) {
+                subtitle = locationLine.trim();
+            }
+        }
+        
+        if (subtitle) {
+            projectSubtitle.textContent = subtitle;
         }
     }
     
