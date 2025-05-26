@@ -234,11 +234,10 @@ function loadImageData() {
 let headerScrollTimeout;
 let isScrolling = false;
 
-window.addEventListener('scroll', (e) => {
-    // Prevent scroll events when menu is open
+window.addEventListener('scroll', () => {
+    // Skip scroll effects when menu is open (but don't prevent the event)
     if (document.body.classList.contains('menu-open')) {
-        e.preventDefault();
-        return false;
+        return;
     }
     
     // Prevent multiple scroll events from firing simultaneously
@@ -258,7 +257,7 @@ window.addEventListener('scroll', (e) => {
         }
         isScrolling = false;
     }, 16); // ~60fps
-}, { passive: false });
+}, { passive: true });
 
 // Mobile menu toggle
 let scrollPosition = 0;
@@ -271,17 +270,27 @@ function closeMenu() {
     nav.classList.remove('active');
     menuToggle.classList.remove('active');
     document.body.classList.remove('menu-open');
+    
+    // Clear all body styles
     document.body.style.top = '';
     document.body.style.position = '';
     document.body.style.width = '';
     document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.height = '';
     
     // Remove touch scroll prevention
     document.removeEventListener('touchmove', preventScroll);
     
     // Use requestAnimationFrame to ensure DOM updates before scrolling
     requestAnimationFrame(() => {
-        window.scrollTo(0, scrollPosition);
+        // More gentle scroll restoration for mobile
+        if (scrollPosition > 0) {
+            window.scrollTo({
+                top: scrollPosition,
+                behavior: 'instant'
+            });
+        }
         setTimeout(() => {
             isMenuToggling = false;
         }, 100);
@@ -295,13 +304,17 @@ function openMenu() {
     scrollPosition = window.pageYOffset;
     nav.classList.add('active');
     menuToggle.classList.add('active');
+    
+    // More stable mobile menu positioning
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollPosition}px`;
     document.body.style.width = '100%';
     document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.height = '100%';
     document.body.classList.add('menu-open');
     
-    // Prevent touch scrolling on mobile
+    // Prevent touch scrolling on mobile with better targeting
     document.addEventListener('touchmove', preventScroll, { passive: false });
     
     setTimeout(() => {
@@ -310,7 +323,10 @@ function openMenu() {
 }
 
 function preventScroll(e) {
-    e.preventDefault();
+    // Only prevent scroll if the touch is not on the navigation menu itself
+    if (!nav.contains(e.target)) {
+        e.preventDefault();
+    }
 }
 
 menuToggle.addEventListener('click', (e) => {
