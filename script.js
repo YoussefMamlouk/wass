@@ -159,7 +159,10 @@ Cathédrale Saint Vincent de Tunis
 
 SPECTACLE DE L'AMOUR ET LA PAIX`,
     'bizerte': `‎قفزة من جدار الصمت - بنزرت 12 ماي 2025
-`
+
+‎قفز شاب وظهره ملامس لحائط الزمن، ويداه مفتوحتان كجناحين يبحثان عن حرية و اخرج الاخرى راسه من الماء كولادة ثانية للحياة . ليس هذا مجرّد غطس في البحر، بل هو إعلان حياة، صرخة جسد يرفض أن يُحبس، يرفض أن يتقيد، يرفض أن يُنسى.
+‎هذا البحر ليس فقط ماءً، بل ذاكرة، ونسيان، وهروب نحو الممكن.
+‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم الصعوبات`
 };
 
 // Function to get caption for a folder
@@ -172,7 +175,13 @@ const getFolderCaption = (folder) => {
 
 // Header scroll effect (throttled)
 let headerScrollTimeout;
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', (e) => {
+    // Prevent scroll events when menu is open
+    if (document.body.classList.contains('menu-open')) {
+        e.preventDefault();
+        return false;
+    }
+    
     if (headerScrollTimeout) {
         clearTimeout(headerScrollTimeout);
     }
@@ -184,24 +193,82 @@ window.addEventListener('scroll', () => {
             header.classList.remove('scrolled');
         }
     }, 16); // ~60fps
-}, { passive: true });
+}, { passive: false });
 
 // Mobile menu toggle
+let scrollPosition = 0;
+let isMenuToggling = false;
+
+function closeMenu() {
+    if (isMenuToggling) return;
+    isMenuToggling = true;
+    
+    nav.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    document.body.style.top = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    
+    // Remove touch scroll prevention
+    document.removeEventListener('touchmove', preventScroll);
+    
+    // Use requestAnimationFrame to ensure DOM updates before scrolling
+    requestAnimationFrame(() => {
+        window.scrollTo(0, scrollPosition);
+        setTimeout(() => {
+            isMenuToggling = false;
+        }, 100);
+    });
+}
+
+function openMenu() {
+    if (isMenuToggling) return;
+    isMenuToggling = true;
+    
+    scrollPosition = window.pageYOffset;
+    nav.classList.add('active');
+    menuToggle.classList.add('active');
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+    document.body.style.left = '0';
+    document.body.classList.add('menu-open');
+    
+    // Prevent touch scrolling on mobile
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+    
+    setTimeout(() => {
+        isMenuToggling = false;
+    }, 100);
+}
+
+function preventScroll(e) {
+    e.preventDefault();
+}
+
 menuToggle.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    nav.classList.toggle('active');
-    menuToggle.classList.toggle('active');
-    // Prevent body scrolling when menu is open
-    document.body.classList.toggle('menu-open');
+    
+    if (isMenuToggling) return;
+    
+    const isMenuOpen = nav.classList.contains('active');
+    
+    if (!isMenuOpen) {
+        openMenu();
+    } else {
+        closeMenu();
+    }
 });
 
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        nav.classList.remove('active');
-        menuToggle.classList.remove('active');
-        document.body.classList.remove('menu-open');
+        if (nav.classList.contains('active')) {
+            closeMenu();
+        }
         
         // Update active link
         navLinks.forEach(navLink => navLink.classList.remove('active'));
@@ -215,9 +282,7 @@ document.addEventListener('click', (e) => {
         !nav.contains(e.target) && 
         e.target !== menuToggle && 
         !menuToggle.contains(e.target)) {
-        nav.classList.remove('active');
-        menuToggle.classList.remove('active');
-        document.body.classList.remove('menu-open');
+        closeMenu();
     }
 });
 
@@ -225,7 +290,12 @@ document.addEventListener('click', (e) => {
 let scrollTimeout;
 let isActiveScrolling = false;
 
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', (e) => {
+    // Prevent scroll events when menu is open
+    if (document.body.classList.contains('menu-open')) {
+        return;
+    }
+    
     // Prevent multiple scroll events from firing simultaneously
     if (isActiveScrolling) return;
     

@@ -84,14 +84,19 @@ Ramadan 2025`,
 
 📸Wassila Mestiri 
 Loud Al Mouhit Avril 2025‎`,
-    'cathé́drale': `‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.
+    'cathedrale': `‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.
 
 ‎- شمس التبريزي
 
 Cathédrale Saint Vincent de Tunis 
 16-05-2025 Tunis 
 
-SPECTACLE DE L'AMOUR ET LA PAIX`
+SPECTACLE DE L'AMOUR ET LA PAIX`,
+    'bizerte': `‎قفزة من جدار الصمت - بنزرت 12 ماي 2025
+
+‎قفز شاب وظهره ملامس لحائط الزمن، ويداه مفتوحتان كجناحين يبحثان عن حرية و اخرج الاخرى راسه من الماء كولادة ثانية للحياة . ليس هذا مجرّد غطس في البحر، بل هو إعلان حياة، صرخة جسد يرفض أن يُحبس، يرفض أن يتقيد، يرفض أن يُنسى.
+‎هذا البحر ليس فقط ماءً، بل ذاكرة، ونسيان، وهروب نحو الممكن.
+‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم الصعوبات`
 };
 
 // Function to get caption for a folder
@@ -229,7 +234,13 @@ function loadImageData() {
 let headerScrollTimeout;
 let isScrolling = false;
 
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', (e) => {
+    // Prevent scroll events when menu is open
+    if (document.body.classList.contains('menu-open')) {
+        e.preventDefault();
+        return false;
+    }
+    
     // Prevent multiple scroll events from firing simultaneously
     if (isScrolling) return;
     
@@ -247,31 +258,73 @@ window.addEventListener('scroll', () => {
         }
         isScrolling = false;
     }, 16); // ~60fps
-}, { passive: true });
+}, { passive: false });
 
 // Mobile menu toggle
 let scrollPosition = 0;
+let isMenuToggling = false;
+
+function closeMenu() {
+    if (isMenuToggling) return;
+    isMenuToggling = true;
+    
+    nav.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    document.body.style.top = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    
+    // Remove touch scroll prevention
+    document.removeEventListener('touchmove', preventScroll);
+    
+    // Use requestAnimationFrame to ensure DOM updates before scrolling
+    requestAnimationFrame(() => {
+        window.scrollTo(0, scrollPosition);
+        setTimeout(() => {
+            isMenuToggling = false;
+        }, 100);
+    });
+}
+
+function openMenu() {
+    if (isMenuToggling) return;
+    isMenuToggling = true;
+    
+    scrollPosition = window.pageYOffset;
+    nav.classList.add('active');
+    menuToggle.classList.add('active');
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+    document.body.style.left = '0';
+    document.body.classList.add('menu-open');
+    
+    // Prevent touch scrolling on mobile
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+    
+    setTimeout(() => {
+        isMenuToggling = false;
+    }, 100);
+}
+
+function preventScroll(e) {
+    e.preventDefault();
+}
 
 menuToggle.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     
+    if (isMenuToggling) return;
+    
     const isMenuOpen = nav.classList.contains('active');
     
     if (!isMenuOpen) {
-        // Opening menu - save scroll position
-        scrollPosition = window.pageYOffset;
-        nav.classList.add('active');
-        menuToggle.classList.add('active');
-        document.body.classList.add('menu-open');
-        document.body.style.top = `-${scrollPosition}px`;
+        openMenu();
     } else {
-        // Closing menu - restore scroll position
-        nav.classList.remove('active');
-        menuToggle.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        document.body.style.top = '';
-        window.scrollTo(0, scrollPosition);
+        closeMenu();
     }
 });
 
@@ -279,11 +332,7 @@ menuToggle.addEventListener('click', (e) => {
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         if (nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            menuToggle.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            document.body.style.top = '';
-            window.scrollTo(0, scrollPosition);
+            closeMenu();
         }
     });
 });
@@ -294,11 +343,7 @@ document.addEventListener('click', (e) => {
         !nav.contains(e.target) && 
         e.target !== menuToggle && 
         !menuToggle.contains(e.target)) {
-        nav.classList.remove('active');
-        menuToggle.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        document.body.style.top = '';
-        window.scrollTo(0, scrollPosition);
+        closeMenu();
     }
 });
 
