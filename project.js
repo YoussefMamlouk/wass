@@ -227,10 +227,17 @@ function loadImageData() {
 
 // Header scroll effect (throttled)
 let headerScrollTimeout;
+let isScrolling = false;
+
 window.addEventListener('scroll', () => {
+    // Prevent multiple scroll events from firing simultaneously
+    if (isScrolling) return;
+    
     if (headerScrollTimeout) {
         clearTimeout(headerScrollTimeout);
     }
+    
+    isScrolling = true;
     
     headerScrollTimeout = setTimeout(() => {
         if (window.scrollY > 50) {
@@ -238,24 +245,46 @@ window.addEventListener('scroll', () => {
         } else {
             header.classList.remove('scrolled');
         }
+        isScrolling = false;
     }, 16); // ~60fps
 }, { passive: true });
 
 // Mobile menu toggle
+let scrollPosition = 0;
+
 menuToggle.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    nav.classList.toggle('active');
-    menuToggle.classList.toggle('active');
-    document.body.classList.toggle('menu-open');
+    
+    const isMenuOpen = nav.classList.contains('active');
+    
+    if (!isMenuOpen) {
+        // Opening menu - save scroll position
+        scrollPosition = window.pageYOffset;
+        nav.classList.add('active');
+        menuToggle.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.body.style.top = `-${scrollPosition}px`;
+    } else {
+        // Closing menu - restore scroll position
+        nav.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
+    }
 });
 
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        nav.classList.remove('active');
-        menuToggle.classList.remove('active');
-        document.body.classList.remove('menu-open');
+        if (nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            menuToggle.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            document.body.style.top = '';
+            window.scrollTo(0, scrollPosition);
+        }
     });
 });
 
@@ -268,6 +297,8 @@ document.addEventListener('click', (e) => {
         nav.classList.remove('active');
         menuToggle.classList.remove('active');
         document.body.classList.remove('menu-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
     }
 });
 

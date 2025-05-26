@@ -223,11 +223,18 @@ document.addEventListener('click', (e) => {
 
 // Update active link on scroll (throttled for better performance)
 let scrollTimeout;
+let isActiveScrolling = false;
+
 window.addEventListener('scroll', () => {
+    // Prevent multiple scroll events from firing simultaneously
+    if (isActiveScrolling) return;
+    
     // Clear previous timeout
     if (scrollTimeout) {
         clearTimeout(scrollTimeout);
     }
+    
+    isActiveScrolling = true;
     
     // Throttle scroll events to prevent excessive firing on mobile
     scrollTimeout = setTimeout(() => {
@@ -254,6 +261,8 @@ window.addEventListener('scroll', () => {
                 }
             }
         });
+        
+        isActiveScrolling = false;
     }, 50); // 50ms throttle
 }, { passive: true });
 
