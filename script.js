@@ -170,17 +170,26 @@ const getFolderCaption = (folder) => {
     return fallbackCaptions[folder] || '';
 };
 
-// Header scroll effect
+// Header scroll effect (throttled)
+let headerScrollTimeout;
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
+    if (headerScrollTimeout) {
+        clearTimeout(headerScrollTimeout);
     }
-});
+    
+    headerScrollTimeout = setTimeout(() => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }, 16); // ~60fps
+}, { passive: true });
 
 // Mobile menu toggle
-menuToggle.addEventListener('click', () => {
+menuToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     nav.classList.toggle('active');
     menuToggle.classList.toggle('active');
     // Prevent body scrolling when menu is open
@@ -189,7 +198,7 @@ menuToggle.addEventListener('click', () => {
 
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
         nav.classList.remove('active');
         menuToggle.classList.remove('active');
         document.body.classList.remove('menu-open');
@@ -212,32 +221,41 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Update active link on scroll
+// Update active link on scroll (throttled for better performance)
+let scrollTimeout;
 window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY;
+    // Clear previous timeout
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
     
-    // Get all sections
-    const sections = document.querySelectorAll('section[id]');
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
+    // Throttle scroll events to prevent excessive firing on mobile
+    scrollTimeout = setTimeout(() => {
+        const scrollPosition = window.scrollY;
         
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            // Remove active class from all links
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
+        // Get all sections
+        const sections = document.querySelectorAll('section[id]');
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
             
-            // Add active class to current section's link
-            const activeLink = document.querySelector(`nav ul li a[href="#${sectionId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                // Remove active class from all links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to current section's link
+                const activeLink = document.querySelector(`nav ul li a[href="#${sectionId}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
             }
-        }
-    });
-});
+        });
+    }, 50); // 50ms throttle
+}, { passive: true });
 
 // Load image data from JSON file
 function loadImageData() {

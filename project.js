@@ -225,27 +225,50 @@ function loadImageData() {
         });
 }
 
-// Header scroll effect
+// Header scroll effect (throttled)
+let headerScrollTimeout;
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
+    if (headerScrollTimeout) {
+        clearTimeout(headerScrollTimeout);
     }
-});
+    
+    headerScrollTimeout = setTimeout(() => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }, 16); // ~60fps
+}, { passive: true });
 
 // Mobile menu toggle
-menuToggle.addEventListener('click', () => {
+menuToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     nav.classList.toggle('active');
     menuToggle.classList.toggle('active');
+    document.body.classList.toggle('menu-open');
 });
 
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
         nav.classList.remove('active');
         menuToggle.classList.remove('active');
+        document.body.classList.remove('menu-open');
     });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (nav.classList.contains('active') && 
+        !nav.contains(e.target) && 
+        e.target !== menuToggle && 
+        !menuToggle.contains(e.target)) {
+        nav.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.classList.remove('menu-open');
+    }
 });
 
 // Initialize project page
@@ -308,26 +331,8 @@ function initProjectPage(folder) {
         }
     }
     
-    // Set project description
-    if (caption) {
-        // Determine if caption contains Arabic text
-        const hasArabic = /[\u0600-\u06FF]/.test(caption);
-        if (hasArabic) {
-            projectDescription.setAttribute('lang', 'ar');
-        }
-        
-        // Format the caption with paragraphs
-        const formattedCaption = caption
-            .split('\n\n')
-            .map(para => para.trim())
-            .filter(para => para !== '')
-            .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
-            .join('');
-        
-        projectDescription.innerHTML = formattedCaption;
-    } else {
-        projectDescription.innerHTML = `<p>Explore this visual journey through ${formattedTitle}.</p>`;
-    }
+    // Hide the project description section since we'll show caption with images
+    projectDescription.style.display = 'none';
     
     // Load project images
     loadProjectImages(folder);
@@ -359,56 +364,105 @@ function loadProjectImages(folder) {
 
 // Helper function to render the gallery with images and captions
 function renderGallery(folder, images) {
-    // Split caption into parts for each image
-    const captionParts = splitCaptionForImages(getFolderCaption(folder), images.length);
-    const hasArabic = /[\u0600-\u06FF]/.test(getFolderCaption(folder) || '');
+    const caption = getFolderCaption(folder);
+    const hasArabic = /[\u0600-\u06FF]/.test(caption || '');
     
-    // Create gallery HTML
-    let galleryHTML = '';
+    if (images.length === 0) {
+        projectGallery.innerHTML = '<div class="anna-inspired-layout"><p>No images available for this project.</p></div>';
+        return;
+    }
     
-    // All images have the same size, including the first one
-    for (let i = 0; i < images.length; i++) {
-        const isReversed = i % 2 !== 0; // Alternate layout
-        const captionHTML = captionParts[i] ? 
-            `<div class="gallery-text" ${hasArabic ? 'lang="ar"' : ''}>
-                <p>${captionParts[i].replace(/\n/g, '<br>')}</p>
-            </div>` : '';
+    if (images.length === 1 || images.length === 2) {
+        // Use single/simple layout for 1-2 images
+        let galleryHTML = '<div class="single-image-layout">';
+        
+        images.forEach((image, index) => {
+            galleryHTML += `
+                <div class="image-container">
+                    <img src="${image}" alt="${formatFolderName(folder)} ${index+1}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'" onclick="openLightbox('${image}', '${formatFolderName(folder)} ${index+1}')">
+                </div>
+            `;
+        });
+        
+        if (caption) {
+            const formattedCaption = caption
+                .split('\n\n')
+                .map(para => para.trim())
+                .filter(para => para !== '')
+                .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+                .join('');
+            
+            galleryHTML += `
+                <div class="caption-container" ${hasArabic ? 'lang="ar"' : ''}>
+                    ${formattedCaption}
+                </div>
+            `;
+        }
+        
+        galleryHTML += '</div>';
+        projectGallery.innerHTML = galleryHTML;
+        return;
+    }
+    
+    // For 3+ images, use grid layout but limit to first 8 images to prevent overlap
+    const displayImages = images.slice(0, 8);
+    const positions = ['top-left', 'top-center', 'top-right', 'middle-left', 'middle-right', 'bottom-left', 'bottom-center', 'bottom-right'];
+    const sizes = ['large', 'medium', 'small'];
+    
+    let galleryHTML = '<div class="anna-inspired-layout">';
+    
+    // Add images with grid positioning
+    displayImages.forEach((image, index) => {
+        const position = positions[index];
+        const size = sizes[index % sizes.length];
         
         galleryHTML += `
-            <div class="gallery-pair ${isReversed ? 'reversed' : ''}">
-                <div class="gallery-image">
-                    <img src="${images[i]}" alt="${formatFolderName(folder)} ${i+1}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'">
-                </div>
-                ${captionHTML}
+            <div class="image-item ${size} ${position}">
+                <img src="${image}" alt="${formatFolderName(folder)} ${index+1}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'" onclick="openLightbox('${image}', '${formatFolderName(folder)} ${index+1}')">
+            </div>
+        `;
+    });
+    
+    // Central caption
+    if (caption) {
+        const formattedCaption = caption
+            .split('\n\n')
+            .map(para => para.trim())
+            .filter(para => para !== '')
+            .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+            .join('');
+        
+        galleryHTML += `
+            <div class="central-caption" ${hasArabic ? 'lang="ar"' : ''}>
+                ${formattedCaption}
             </div>
         `;
     }
     
+    galleryHTML += '</div>';
+    
+    // If there are more than 8 images, add remaining images in a simple grid below
+    if (images.length > 8) {
+        const remainingImages = images.slice(8);
+        galleryHTML += '<div class="additional-images">';
+        galleryHTML += '<div class="additional-images-grid">';
+        
+        remainingImages.forEach((image, index) => {
+            galleryHTML += `
+                <div class="additional-image-item">
+                    <img src="${image}" alt="${formatFolderName(folder)} ${index+9}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'" onclick="openLightbox('${image}', '${formatFolderName(folder)} ${index+9}')">
+                </div>
+            `;
+        });
+        
+        galleryHTML += '</div></div>';
+    }
+    
     projectGallery.innerHTML = galleryHTML;
-    console.log(`Gallery rendered with ${images.length} images for ${folder}`);
+    console.log(`Gallery rendered with ${images.length} images for ${folder} (${displayImages.length} in main layout, ${images.length - displayImages.length} additional)`);
 }
 
-// Split captions for multiple images
-function splitCaptionForImages(caption, imageCount) {
-    if (!caption || imageCount <= 1) {
-        return [caption];
-    }
-    
-    // Split caption into paragraphs
-    const paragraphs = caption.split('\n\n').filter(p => p.trim() !== '');
-    
-    // If we have fewer paragraphs than images, repeat the last paragraph
-    const result = [];
-    for (let i = 0; i < imageCount; i++) {
-        if (i < paragraphs.length) {
-            result.push(paragraphs[i]);
-        } else {
-            result.push(paragraphs[paragraphs.length - 1]);
-        }
-    }
-    
-    return result;
-}
+
 
 // Helper function to format folder names for display
 function formatFolderName(folder) {
@@ -416,4 +470,59 @@ function formatFolderName(folder) {
     return folder
         .replace(/_/g, ' ')
         .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+// Lightbox functionality
+function openLightbox(imageSrc, altText) {
+    // Create lightbox if it doesn't exist
+    let lightbox = document.getElementById('lightbox');
+    if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.id = 'lightbox';
+        lightbox.className = 'lightbox';
+        lightbox.innerHTML = `
+            <div class="lightbox-content">
+                <span class="lightbox-close">&times;</span>
+                <img class="lightbox-image" src="" alt="">
+                <div class="lightbox-caption"></div>
+            </div>
+        `;
+        document.body.appendChild(lightbox);
+        
+        // Add event listeners
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        closeBtn.addEventListener('click', closeLightbox);
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
+    
+    // Set image and show lightbox
+    const lightboxImage = lightbox.querySelector('.lightbox-image');
+    const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+    
+    lightboxImage.src = imageSrc;
+    lightboxImage.alt = altText;
+    lightboxCaption.textContent = altText;
+    
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
