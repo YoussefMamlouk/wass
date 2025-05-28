@@ -7,10 +7,16 @@
     "al_ziyara": [
       "images/al_ziyara/0d715e67-2738-4b79-81f0-c10db9a032cc.jpeg",
       "images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg",
+      "images/al_ziyara/5471f3b6-4a69-4cbf-ab07-c158c0064a73.jpeg",
       "images/al_ziyara/56bd4b38-754d-445d-9d54-7cc85c656026.jpeg",
       "images/al_ziyara/82cb21e5-07f4-405a-b75e-278ddd2088f5.jpeg",
+      "images/al_ziyara/89f3c710-bdf6-42f1-94bf-a19e602412cf.jpeg",
+      "images/al_ziyara/8b375cf3-2c3b-447a-83d1-c46f9030f06a.jpeg",
+      "images/al_ziyara/a127cb0a-7f00-4237-b1ee-47808ca9b05e.jpeg",
+      "images/al_ziyara/a1a879ae-5b71-4c86-8383-44422582c6d6.jpeg",
       "images/al_ziyara/a4e22fe8-0d07-4841-8d9a-2c738c093d04.jpeg",
-      "images/al_ziyara/cca31891-7c49-4639-a0e4-3aea14e7ea85.jpeg"
+      "images/al_ziyara/cca31891-7c49-4639-a0e4-3aea14e7ea85.jpeg",
+      "images/al_ziyara/d2c06a7d-7327-4092-891e-544f6c6357af.jpeg"
     ],
     "bab_bhar": [
       "images/bab_bhar/17273adc-3a08-4b1b-913d-cabd6016b5a5.jpeg",
@@ -47,10 +53,19 @@
       "images/inde/d60e8d13-ff20-4037-9864-462d7376cb78.jpeg",
       "images/inde/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg",
       "images/inde/e54fc41f-c6c9-4bd6-b9f2-cd87d72569ac.jpeg",
-      "images/inde/fbcd7b66-c2d3-4600-a429-6b24cd25107b.jpeg"
+      "images/inde/fbcd7b66-c2d3-4600-a429-6b24cd25107b.jpeg",
+      "images/inde/thumbnail-2.jpg",
+      "images/inde/thumbnail-3.jpg",
+      "images/inde/thumbnail-4.jpg",
+      "images/inde/thumbnail-5.jpg"
     ],
     "jmc": [
+      "images/jmc/28e61831-fadd-4912-b1b9-e3480c113c6c.jpeg",
       "images/jmc/2ec600d9-93f1-4ca4-b6d6-baa03f206ffe.jpeg",
+      "images/jmc/32cd9f6f-b409-4fc5-b85d-be0b381dd587.jpeg",
+      "images/jmc/6f4101c8-3d99-491c-a33a-e21c217c2e49.jpeg",
+      "images/jmc/b8dc159d-6dd3-4e7d-94c6-bba7c76c5c8d.jpeg",
+      "images/jmc/ce4ddb42-5a45-49af-9822-fa1e6b49fce0.jpeg",
       "images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg"
     ],
     "kairouan": [
@@ -64,6 +79,9 @@
       "images/kerkennah/ea809cbc-867c-4cd7-9ca7-206f036b2abc.jpeg",
       "images/kerkennah/fced7c47-2ab1-4d28-9964-2add7e3f7721.jpeg"
     ],
+    "la_goulette": [
+      "images/la_goulette/thumbnail-1.jpg"
+    ],
     "logo": [
       "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.png"
     ],
@@ -74,6 +92,9 @@
       "images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg",
       "images/traversee/a34f9509-a80d-4886-ad36-e0a34eeacf24.jpeg",
       "images/traversee/e906b09d-02b4-4e3e-a8d8-3e6b0cc08be9.jpeg"
+    ],
+    "zaghouan": [
+      "images/zaghouan/thumbnail.jpg"
     ]
   },
   "firstImages": {
@@ -85,15 +106,17 @@
     "cathedrale": "images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg",
     "home": "images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg",
     "inde": "images/inde/0f8a53f0-e362-442a-94f3-fe37debb2217.jpeg",
-    "jmc": "images/jmc/2ec600d9-93f1-4ca4-b6d6-baa03f206ffe.jpeg",
+    "jmc": "images/jmc/28e61831-fadd-4912-b1b9-e3480c113c6c.jpeg",
     "kairouan": "images/kairouan/d532f891-1979-4077-b55a-77deacdf7cc8.jpeg",
     "kerkennah": "images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg",
+    "la_goulette": "images/la_goulette/thumbnail-1.jpg",
     "logo": "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.png",
     "mouhit": "images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg",
-    "traversee": "images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg"
+    "traversee": "images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg",
+    "zaghouan": "images/zaghouan/thumbnail.jpg"
   },
   "captions": {
-    "al_ziyara": "‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.\n\n‎- شمس التبريزي\n\nCathédrale Saint Vincent de Tunis \n16-05-2025 Tunis \n\nSPECTACLE DE L'AMOUR ET LA PAIX",
+    "al_ziyara": "Spectacle Ziara de Lajmi - chant soufi - Ramadan 2025",
     "bab_bhar": "Virée hivernale à Bab Bhar….\n\n‎لا تدع قلبك يصدأ بالأسى، ولا تبقَ طويلًا مع الغائبة قلوبهم\n\n‎– جلال الدين الرومي\n\n7 février 2025",
     "bab_el_falla": "‎دع روحك تجذبك بصمتٍ إلى ما تحبه، فإنها لن تُضلّك أبدًا.\n\n‎- جلال الدين الرومي\n\nBab El Falla \nRamadan 2025",
     "bizerte": "‎قفزة من جدار الصمت - بنزرت 12 ماي 2025\n\n‎قفز شاب وظهره ملامس لحائط الزمن، ويداه مفتوحتان كجناحين يبحثان عن حرية و اخرج الاخر راسه من الماء كولادة ثانية للحياة . ليس هذا مجرّد غطس في البحر، بل هو إعلان حياة، صرخة جسد يرفض أن يُحبس، يرفض أن يتقيد، يرفض أن يُنسى.\n‎هذا البحر ليس فقط ماءً، بل ذاكرة، ونسيان، وهروب نحو الممكن.\n‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم\n‎الصعبات",
@@ -102,7 +125,9 @@
     "jmc": "\"قد تنظر لما أنظر، ولكنك لا ترى ما أرى...\"\n- أرسطو\n\nJournées musicales de Carthage 2025",
     "kairouan": "Sortie photographique Kairouan Janvier 2025 avec Club Photo de Tunis\n\nFragments de vie ….",
     "kerkennah": "في بحر حبك تستريح قواربي    \nوتعوم فوق صفائه اشجاني \nفأنا اذا ما مرّ طيفُك عابراً \nأنسى هموماً لم تكن تنساني\n\nمولانا جلال الدين الرومي\n\nKerkennah Janvier 2025",
+    "la_goulette": "A une passante hommage à Baudelaire - La goulette 2024 ",
     "mouhit": "\"إن المرء مع من لا يفهمه سجين.\" \n\n شمس الدين التبريزي \n\n📸Wassila Mestiri \nLoud Al Mouhit Avril 2025‎",
-    "traversee": "‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.\n\n‎-جلال الدين الرومي\n\nTraversée ……\n\nLoud ‘El Mouhit’\nSfax-Kerkennah \n\nJanvier 2025"
+    "traversee": "‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.\n\n‎-جلال الدين الرومي\n\nTraversée ……\n\nLoud ‘El Mouhit’\nSfax-Kerkennah \n\nJanvier 2025",
+    "zaghouan": "كن أنت الشخصنة \nالذي تَودّ مُقابلته\n– شمس التبريزي\nBakhta - Jougar - zaghouan - Tunisie juin 2024"
   }
 }
