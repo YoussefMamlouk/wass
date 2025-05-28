@@ -12,9 +12,9 @@ const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
 
 // Project folders based on requirements
-const projectFolders = ['kerkennah', 'al_ziyara', 'jmc'];
+const projectFolders = ['kerkennah', 'al_ziyara', 'jmc', 'inde'];
 // All other folders except home, logo, and about_me will be albums
-const albumFolders = ['traversee', 'kairouan', 'inde', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte'];
+const albumFolders = ['traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte'];
 
 // Current gallery images and index for modal navigation
 let currentGallery = [];
@@ -76,7 +76,6 @@ const getFirstImageFromFolder = (folder) => {
         'jmc': 'images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg',
         'traversee': 'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
         'kairouan': 'images/kairouan/d532f891-1979-4077-b55a-77deacdf7cc8.jpeg',
-        'inde': 'images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
         'bab_bhar': 'images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg',
         'bab_el_falla': 'images/bab_el_falla/e86571d5-3cca-4fbd-8ea3-2855aac56229.jpeg',
         'mouhit': 'images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg',
