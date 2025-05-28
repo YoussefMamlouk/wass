@@ -74,6 +74,7 @@ const getFirstImageFromFolder = (folder) => {
         'kerkennah': 'images/kerkennah/2e35b71e-0194-4a6a-bed9-aa76d319a115.jpeg',
         'al_ziyara': 'images/al_ziyara/32da94df-18d2-4ef2-aa8e-9ee834cc8253.jpeg',
         'jmc': 'images/jmc/f860521e-6d57-40a7-a381-1580ea80e5f7.jpeg',
+        'inde': 'images/inde/b51ca394-5fd8-4184-b7ba-60ae4de0f0d8.jpeg',
         'traversee': 'images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg',
         'kairouan': 'images/kairouan/d532f891-1979-4077-b55a-77deacdf7cc8.jpeg',
         'bab_bhar': 'images/bab_bhar/e4990f37-30f0-436d-8d11-ac1e12f78ffd.jpeg',
