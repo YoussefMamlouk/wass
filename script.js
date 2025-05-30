@@ -14,7 +14,7 @@ const nextBtn = document.querySelector('.next');
 // Project folders based on requirements
 const projectFolders = ['kerkennah', 'al_ziyara', 'jmc', 'inde'];
 // All other folders except home, logo, and about_me will be albums
-const albumFolders = ['traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte'];
+const albumFolders = ['l\'oiseau_a_sidibou', 'zaghouan', 'la_goulette', 'traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte'];
 
 // Current gallery images and index for modal navigation
 let currentGallery = [];
@@ -82,6 +82,8 @@ const getFirstImageFromFolder = (folder) => {
         'mouhit': 'images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg',
         'cathedrale': 'images/cathedrale/60d5d1d6-395d-435b-83e7-9fe37dcfd675.jpeg',
         'bizerte': 'images/bizerte/f498c6e7-2035-443c-be1c-f2c550f4cb63.jpeg', // Add first image from Bizerte folder
+        'la_goulette': 'images/la_goulette/thumbnail-1.jpg',
+        'zaghouan': 'images/zaghouan/thumbnail.jpg',
         'home': 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
     };
     
@@ -162,7 +164,12 @@ SPECTACLE DE L'AMOUR ET LA PAIX`,
 
 ‎قفز شاب وظهره ملامس لحائط الزمن، ويداه مفتوحتان كجناحين يبحثان عن حرية و اخرج الاخرى راسه من الماء كولادة ثانية للحياة . ليس هذا مجرّد غطس في البحر، بل هو إعلان حياة، صرخة جسد يرفض أن يُحبس، يرفض أن يتقيد، يرفض أن يُنسى.
 ‎هذا البحر ليس فقط ماءً، بل ذاكرة، ونسيان، وهروب نحو الممكن.
-‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم الصعوبات`
+‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم الصعوبات`,
+    'la_goulette': `A une passante hommage à Baudelaire - La goulette 2024`,
+    'zaghouan': `كن أنت الشخصنة 
+الذي تَودّ مُقابلته
+– شمس التبريزي
+Bakhta - Jougar - zaghouan - Tunisie juin 2024`
 };
 
 // Function to get caption for a folder
