@@ -84,7 +84,8 @@ const getFirstImageFromFolder = (folder) => {
         'bizerte': 'images/bizerte/f498c6e7-2035-443c-be1c-f2c550f4cb63.jpeg', // Add first image from Bizerte folder
         'la_goulette': 'images/la_goulette/thumbnail-1.jpg',
         'zaghouan': 'images/zaghouan/thumbnail.jpg',
-        'home': 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
+        'l\'oiseau_a_sidibou': 'images/l\'oiseau_a_sidibou/IMG_7525.jpeg',
+        'home': 'images/zaghouan/thumbnail.jpg'
     };
     
     return folderImages[folder] || placeholderImage;
@@ -169,7 +170,10 @@ SPECTACLE DE L'AMOUR ET LA PAIX`,
     'zaghouan': `كن أنت الشخصنة 
 الذي تَودّ مُقابلته
 – شمس التبريزي
-Bakhta - Jougar - zaghouan - Tunisie juin 2024`
+Bakhta - Jougar - zaghouan - Tunisie juin 2024`,
+    'l\'oiseau_a_sidibou': `"أتدري من الذي إذا علّمته الطيران طار
+وعاد إليك؟ إنّهُ من وجد فيك حريّته."
+جلال الدين الرومي`
 };
 
 // Function to get caption for a folder
@@ -989,6 +993,11 @@ function createProjectThumbnail(folder, container, isAlbum = false) {
 
 // Helper function to format folder names for display
 function formatFolderName(folder) {
+    // Special case for l'oiseau_a_sidibou
+    if (folder === 'l\'oiseau_a_sidibou') {
+        return 'L\'Oiseau à SidiBou';
+    }
+    
     // Replace underscores with spaces and capitalize first letter of each word
     return folder
         .replace(/_/g, ' ')

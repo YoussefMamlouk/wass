@@ -96,7 +96,16 @@ SPECTACLE DE L'AMOUR ET LA PAIX`,
 
 ‎قفز شاب وظهره ملامس لحائط الزمن، ويداه مفتوحتان كجناحين يبحثان عن حرية و اخرج الاخرى راسه من الماء كولادة ثانية للحياة . ليس هذا مجرّد غطس في البحر، بل هو إعلان حياة، صرخة جسد يرفض أن يُحبس، يرفض أن يتقيد، يرفض أن يُنسى.
 ‎هذا البحر ليس فقط ماءً، بل ذاكرة، ونسيان، وهروب نحو الممكن.
-‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم الصعوبات`
+‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم الصعوبات`,
+    'l\'oiseau_a_sidibou': `"أتدري من الذي إذا علّمته الطيران طار
+وعاد إليك؟ إنّهُ من وجد فيك حريّته."
+جلال الدين الرومي
+- Sidi Bou Saïd, 2024`,
+    'la_goulette': `A une passante hommage à Baudelaire - La goulette 2024`,
+    'zaghouan': `كن أنت الشخصنة 
+الذي تَودّ مُقابلته
+– شمس التبريزي
+Bakhta - Jougar - zaghouan - Tunisie juin 2024`
 };
 
 // Function to get caption for a folder
@@ -186,6 +195,18 @@ const fallbackProjectImages = {
         'images/cathedrale/d04624a6-6136-4c1b-9505-31ee2b953a4e.jpeg',
         'images/cathedrale/e5574915-cb16-446c-bbb0-0890d870fafc.jpeg'
     ],
+    'bizerte': [
+        'images/bizerte/f498c6e7-2035-443c-be1c-f2c550f4cb63.jpeg'
+    ],
+    'l\'oiseau_a_sidibou': [
+        'images/l\'oiseau_a_sidibou/IMG_7525.jpeg'
+    ],
+    'la_goulette': [
+        'images/la_goulette/thumbnail-1.jpg'
+    ],
+    'zaghouan': [
+        'images/zaghouan/thumbnail.jpg'
+    ],
     'home': [
         'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
     ]
@@ -193,18 +214,24 @@ const fallbackProjectImages = {
 
 // Function to get images for a folder
 const getFolderImages = (folder) => {
+    console.log(`Debug getFolderImages: Getting images for folder "${folder}"`);
+    
     // First check special folders
     if (specialFolders[folder]) {
+        console.log(`Debug: Found in specialFolders:`, specialFolders[folder].images);
         return specialFolders[folder].images;
     }
     
     // Then check imageData
     if (imageData.folders && imageData.folders[folder]) {
+        console.log(`Debug: Found in imageData.folders:`, imageData.folders[folder]);
         return imageData.folders[folder];
     }
     
     // Finally fallback to hardcoded values
-    return fallbackProjectImages[folder] || [];
+    const fallbackImages = fallbackProjectImages[folder] || [];
+    console.log(`Debug: Using fallback images:`, fallbackImages);
+    return fallbackImages;
 };
 
 // Load image data from JSON file
@@ -410,6 +437,21 @@ function initProjectPage(folder) {
             if (match) {
                 subtitle = match[1].trim(); // "بنزرت 12 ماي 2025"
             }
+        } else if (folder === 'l\'oiseau_a_sidibou') {
+            // For L'Oiseau à SidiBou, extract the location and date from the last line
+            const captionLines = caption.split('\n');
+            const lastLine = captionLines[captionLines.length - 1];
+            if (lastLine && lastLine.startsWith('- ')) {
+                subtitle = lastLine.substring(2).trim(); // Remove "- " and get "Sidi Bou Saïd, 2024"
+            } else {
+                subtitle = 'جلال الدين الرومي'; // Fallback to author name
+            }
+        } else if (folder === 'zaghouan') {
+            // For Zaghouan, use the location and date from the last line
+            subtitle = 'Bakhta - Jougar - zaghouan - Tunisie juin 2024';
+        } else if (folder === 'la_goulette') {
+            // For La Goulette, use the year
+            subtitle = 'La goulette 2024';
         } else {
             // For other projects, find the first non-Arabic line
             const captionLines = caption.split('\n');
@@ -432,12 +474,24 @@ function initProjectPage(folder) {
         console.log(`Set hero image from special folder: ${specialFolders[folder].thumbnail}`);
     } else {
         const images = getFolderImages(folder);
+        console.log(`Debug: folder=${folder}, images found:`, images);
         if (images && images.length > 0) {
-            projectHero.style.backgroundImage = `url('${images[0]}')`;
-            console.log(`Set hero image: ${images[0]}`);
+            const heroImagePath = images[0];
+            projectHero.style.backgroundImage = `url('${heroImagePath}')`;
+            projectHero.style.backgroundSize = 'cover';
+            projectHero.style.backgroundPosition = 'center';
+            projectHero.style.backgroundRepeat = 'no-repeat';
+            console.log(`Set hero image: ${heroImagePath}`);
+            console.log(`Hero element background-image:`, projectHero.style.backgroundImage);
+            
+            // Add a test to verify the image can be loaded
+            const testImage = new Image();
+            testImage.onload = () => console.log(`✓ Hero image loaded successfully: ${heroImagePath}`);
+            testImage.onerror = () => console.error(`✗ Failed to load hero image: ${heroImagePath}`);
+            testImage.src = heroImagePath;
         } else {
             projectHero.style.backgroundImage = `url('images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg')`;
-            console.log('Using default hero image');
+            console.log('Using default hero image - no images found for folder:', folder);
         }
     }
     
@@ -572,10 +626,13 @@ function renderGallery(folder, images) {
     console.log(`Gallery rendered with ${images.length} images for ${folder} (${displayImages.length} in main layout, ${images.length - displayImages.length} additional)`);
 }
 
-
-
 // Helper function to format folder names for display
 function formatFolderName(folder) {
+    // Special case for l'oiseau_a_sidibou
+    if (folder === 'l\'oiseau_a_sidibou') {
+        return 'L\'Oiseau à SidiBou';
+    }
+    
     // Replace underscores with spaces and capitalize first letter of each word
     return folder
         .replace(/_/g, ' ')
