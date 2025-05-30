@@ -56,6 +56,147 @@ const specialFolders = {
     }
 };
 
+// News articles data - will be populated from directory structure
+const newsArticles = [];
+
+// Function to load news articles
+async function loadNewsArticles() {
+    try {
+        // For now, we'll hardcode the known news article until we create a dynamic system
+        const newsData = [
+            {
+                id: 'la_tunisie_postmoderne',
+                title: 'J-1 : La Tunisie Post Moderne',
+                date: '31 Mai 2024',
+                location: 'Église Sainte Croix de Tunis, Médina',
+                content: `Il s'agit d'un projet artistique qui réunit 28 Photographes Tunisiens avec des parcours et univers différents autour de 53 œuvres photographiques numériques. Vous allez découvrir une Tunisie sous ses différentes facettes avec des regards aussi différents que le changement d'un pays qui se questionne, se cherche, se déconstruit…`,
+                images: [
+                    'news/la_tunisie_postmoderne/501446282_10238227470369775_1870603491074280546_n.jpg',
+                    'news/la_tunisie_postmoderne/502911955_10238227466929689_3131729391437451076_n.jpg'
+                ],
+                excerpt: 'Un projet artistique qui réunit 28 Photographes Tunisiens avec des parcours et univers différents autour de 53 œuvres photographiques numériques.'
+            }
+        ];
+        
+        return newsData;
+    } catch (error) {
+        console.error('Error loading news articles:', error);
+        return [];
+    }
+}
+
+// Function to create a news item element
+function createNewsItem(article) {
+    const newsItem = document.createElement('div');
+    newsItem.className = 'news-item';
+    
+    // Use the first image as the featured image
+    const featuredImage = article.images && article.images.length > 0 ? article.images[0] : 'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg';
+    
+    newsItem.innerHTML = `
+        <div class="news-item-image">
+            <img src="${featuredImage}" alt="${article.title}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'">
+        </div>
+        <div class="news-item-content">
+            <div class="news-item-date">${article.date}</div>
+            <h3 class="news-item-title">${article.title}</h3>
+            <p class="news-item-excerpt">${article.excerpt}</p>
+            <div class="news-item-footer">
+                <span class="news-item-location">${article.location}</span>
+                <a href="#" class="news-item-read-more" data-news-id="${article.id}">Read More</a>
+            </div>
+        </div>
+    `;
+    
+    // Add click event to the news item
+    newsItem.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('news-item-read-more')) {
+            openNewsArticle(article);
+        }
+    });
+    
+    // Add click event to the read more link
+    const readMoreLink = newsItem.querySelector('.news-item-read-more');
+    readMoreLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openNewsArticle(article);
+    });
+    
+    return newsItem;
+}
+
+// Function to open a news article in a modal or new page
+function openNewsArticle(article) {
+    // Create a modal to display the full article
+    const modal = document.createElement('div');
+    modal.className = 'news-modal';
+    modal.innerHTML = `
+        <div class="news-modal-content">
+            <div class="news-modal-header">
+                <span class="news-modal-close">&times;</span>
+            </div>
+            <div class="news-modal-body">
+                <div class="news-modal-date">${article.date}</div>
+                <h1 class="news-modal-title">${article.title}</h1>
+                <div class="news-modal-location">${article.location}</div>
+                <div class="news-modal-images">
+                    ${article.images.map(img => `
+                        <img src="${img}" alt="${article.title}" onerror="this.src='images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'">
+                    `).join('')}
+                </div>
+                <div class="news-modal-text">
+                    <p>${article.content}</p>
+                    ${article.fullContent ? `<p>${article.fullContent}</p>` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add event listeners
+    const closeBtn = modal.querySelector('.news-modal-close');
+    closeBtn.addEventListener('click', () => {
+        document.body.removeChild(modal);
+        document.body.style.overflow = '';
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+    
+    // Add entrance animation
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 10);
+}
+
+// Function to load and display news articles
+async function displayNewsArticles() {
+    const newsGrid = document.querySelector('.news-grid');
+    if (!newsGrid) return;
+    
+    const articles = await loadNewsArticles();
+    
+    if (articles.length === 0) {
+        newsGrid.innerHTML = '<p>No news articles available at the moment.</p>';
+        return;
+    }
+    
+    newsGrid.innerHTML = '';
+    articles.forEach(article => {
+        const newsItem = createNewsItem(article);
+        newsGrid.appendChild(newsItem);
+    });
+}
+
 // Function to get the first image from a folder
 const getFirstImageFromFolder = (folder) => {
     // First check special folders
@@ -412,6 +553,9 @@ document.addEventListener('DOMContentLoaded', () => {
         albumFolders.forEach(folder => {
             createProjectThumbnail(folder, albumsGrid, true);
         });
+        
+        // Load News articles
+        displayNewsArticles();
         
         console.log('All thumbnails loaded successfully');
     });
