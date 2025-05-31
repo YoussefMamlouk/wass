@@ -14,7 +14,7 @@ const nextBtn = document.querySelector('.next');
 // Project folders based on requirements
 const projectFolders = ['kerkennah', 'al_ziyara', 'jmc', 'inde'];
 // All other folders except home, logo, and about_me will be albums
-const albumFolders = ['l\'oiseau_a_sidibou', 'zaghouan', 'la_goulette', 'traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte'];
+const albumFolders = ['l\'oiseau_a_sidibou', 'zaghouan', 'la_goulette', 'traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte', 'the_indian_lady'];
 
 // Current gallery images and index for modal navigation
 let currentGallery = [];
@@ -226,7 +226,8 @@ const getFirstImageFromFolder = (folder) => {
         'la_goulette': 'images/la_goulette/thumbnail-1.jpg',
         'zaghouan': 'images/zaghouan/thumbnail.jpg',
         'l\'oiseau_a_sidibou': 'images/l\'oiseau_a_sidibou/IMG_7525.jpeg',
-        'home': 'images/zaghouan/thumbnail.jpg'
+        'home': 'images/zaghouan/thumbnail.jpg',
+        'the_indian_lady': 'images/the_indian_lady/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg'
     };
     
     return folderImages[folder] || placeholderImage;
@@ -314,7 +315,9 @@ SPECTACLE DE L'AMOUR ET LA PAIX`,
 Bakhta - Jougar - zaghouan - Tunisie juin 2024`,
     'l\'oiseau_a_sidibou': `"أتدري من الذي إذا علّمته الطيران طار
 وعاد إليك؟ إنّهُ من وجد فيك حريّته."
-جلال الدين الرومي`
+جلال الدين الرومي`,
+    'the_indian_lady': `لا يوجد أسهل من الكراهية والبغضاء، أما الحُبّ، فهو يحتاج نفساً عظيمة
+― شمس التبريزي`
 };
 
 // Function to get caption for a folder

@@ -105,7 +105,9 @@ SPECTACLE DE L'AMOUR ET LA PAIX`,
     'zaghouan': `كن أنت الشخصنة 
 الذي تَودّ مُقابلته
 – شمس التبريزي
-Bakhta - Jougar - zaghouan - Tunisie juin 2024`
+Bakhta - Jougar - zaghouan - Tunisie juin 2024`,
+    'the_indian_lady': `لا يوجد أسهل من الكراهية والبغضاء، أما الحُبّ، فهو يحتاج نفساً عظيمة
+― شمس التبريزي`
 };
 
 // Function to get caption for a folder
@@ -209,6 +211,9 @@ const fallbackProjectImages = {
     ],
     'home': [
         'images/home/c6f275d1-d11c-47d6-9225-5fd9781386df.jpeg'
+    ],
+    'the_indian_lady': [
+        'images/the_indian_lady/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg'
     ]
 };
 
