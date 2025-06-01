@@ -49,7 +49,6 @@
       "images/inde/e54fc41f-c6c9-4bd6-b9f2-cd87d72569ac.jpeg",
       "images/inde/fbcd7b66-c2d3-4600-a429-6b24cd25107b.jpeg",
       "images/inde/thumbnail-2.jpg",
-      "images/inde/thumbnail-3.jpg",
       "images/inde/thumbnail-4.jpg",
       "images/inde/thumbnail-5.jpg"
     ],
@@ -82,6 +81,20 @@
     "logo": [
       "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.png"
     ],
+    "manifestation": [
+      "images/manifestation/19cf2af9-e35f-480e-a3b4-dab07a3e9cd7.jpeg",
+      "images/manifestation/5557bfab-0c7d-42db-b573-eeace6f6724c.jpeg",
+      "images/manifestation/6ec47c7d-38b1-4f04-8fd6-8cb255381af6.jpeg",
+      "images/manifestation/876a7513-ed89-4610-a0f6-b8e11e9bc6d9.jpeg",
+      "images/manifestation/91945591-fd36-421c-8545-cfe3e6c6ad98.jpeg",
+      "images/manifestation/a26e5365-95ea-4ffd-a381-d51527f2fb19.jpeg",
+      "images/manifestation/a76a16db-2119-4a84-96bb-793b0f751471.jpeg",
+      "images/manifestation/aa03cfcc-1b79-4982-8685-50273a0d09ab.jpeg",
+      "images/manifestation/affb46d9-6644-463e-adc6-0336fffcb38d.jpeg",
+      "images/manifestation/bc3e3287-4e3b-46f6-a5af-7c6995b76c32.jpeg",
+      "images/manifestation/ce70fc16-cd2b-491f-9757-f49500725b96.jpeg",
+      "images/manifestation/edd20556-dbad-44cb-bc62-c4eeb1066399.jpeg"
+    ],
     "mouhit": [
       "images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg"
     ],
@@ -112,6 +125,7 @@
     "l'oiseau_a_sidibou": "images/l'oiseau_a_sidibou/IMG_7525.jpeg",
     "la_goulette": "images/la_goulette/thumbnail-1.jpg",
     "logo": "images/logo/dfa70b0b-324c-416a-a2b5-7764e61d209d.png",
+    "manifestation": "images/manifestation/19cf2af9-e35f-480e-a3b4-dab07a3e9cd7.jpeg",
     "mouhit": "images/mouhit/a7046275-b722-417a-9a20-2b29d8496a0f.jpeg",
     "the_indian_lady": "images/the_indian_lady/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg",
     "traversee": "images/traversee/61cbfbda-4f04-437d-a5c4-b191d1f80649.jpeg",
@@ -124,11 +138,12 @@
     "bizerte": "‎قفزة من جدار الصمت - بنزرت 12 ماي 2025\n\n‎قفز شاب وظهره ملامس لحائط الزمن، ويداه مفتوحتان كجناحين يبحثان عن حرية و اخرج الاخر راسه من الماء كولادة ثانية للحياة . ليس هذا مجرّد غطس في البحر، بل هو إعلان حياة، صرخة جسد يرفض أن يُحبس، يرفض أن يتقيد، يرفض أن يُنسى.\n‎هذا البحر ليس فقط ماءً، بل ذاكرة، ونسيان، وهروب نحو الممكن.\n‎الصورة ليست عن اللعب، بل عن الحلم، عن الشباب الذين ما زالوا يحاولون الطيران رغم\n‎الصعبات",
     "cathedrale": "‎عندما تلج دائرة الحب، تكون اللغة التي نعرفها قد عفى عليها الزمن، فالشيء الذي لا يمكن التعبير عنه بكلمات، لا يمكن إدراكه إلا بالصمت.\n\n‎- شمس التبريزي\n\nCathédrale Saint Vincent de Tunis \n16-05-2025 Tunis \n\nSPECTACLE DE L'AMOUR ET LA PAIX",
     "inde": "\"يعيش حرا من لا ينتظر شيئا.\"\nINDE - Octobre 2024",
-    "jmc": "\"قد تنظر لما أنظر، ولكنك لا ترى ما أرى...\"\n- أرسطو\n\nJournées musicales de Carthage 2025",
+    "jmc": "Elida Almeida from Cap Vert 🇨🇻 In Cesária Évora’s footsteps\nCité de la culture \nJournées musicales de Carthage JMC \n\n22nd of January 2025",
     "kairouan": "Sortie photographique Kairouan Janvier 2025 avec Club Photo de Tunis\n\nFragments de vie ….",
     "kerkennah": "في بحر حبك تستريح قواربي    \nوتعوم فوق صفائه اشجاني \nفأنا اذا ما مرّ طيفُك عابراً \nأنسى هموماً لم تكن تنساني\n\nمولانا جلال الدين الرومي\n\nKerkennah Janvier 2025",
     "l'oiseau_a_sidibou": " \"أتدري من الذي إذا علّمته الطيران طار\nوعاد إليك؟ إنّهُ من وجد فيك حريّته.\"\nجلال الدين الرومي\n- Sidi Bou Saïd, 2024",
     "la_goulette": "A une passante hommage à Baudelaire - La goulette 2024 ",
+    "manifestation": "Manifestation contre l’arrestation de l’avocat Ahmed Souab - 25 Avril 2025\n",
     "mouhit": "\"إن المرء مع من لا يفهمه سجين.\" \n\n شمس الدين التبريزي \n\n📸Wassila Mestiri \nLoud Al Mouhit Avril 2025‎",
     "the_indian_lady": "لا يوجد أسهل من الكراهية والبغضاء، أما الحُبّ، فهو يحتاج نفساً عظيمة\n― شمس التبريزي",
     "traversee": "‎لا تسرف في التواضع ، فهو يفقد الناس القدرة على رؤية الحدود.\n\n‎-جلال الدين الرومي\n\nTraversée ……\n\nLoud ‘El Mouhit’\nSfax-Kerkennah \n\nJanvier 2025",

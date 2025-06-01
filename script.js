@@ -14,7 +14,7 @@ const nextBtn = document.querySelector('.next');
 // Project folders based on requirements
 const projectFolders = ['kerkennah', 'al_ziyara', 'jmc', 'inde'];
 // All other folders except home, logo, and about_me will be albums
-const albumFolders = ['l\'oiseau_a_sidibou', 'zaghouan', 'la_goulette', 'traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte', 'the_indian_lady'];
+const albumFolders = ['l\'oiseau_a_sidibou', 'zaghouan', 'la_goulette', 'traversee', 'kairouan', 'bab_bhar', 'bab_el_falla', 'mouhit', 'cathedrale', 'bizerte', 'the_indian_lady', 'manifestation'];
 
 // Current gallery images and index for modal navigation
 let currentGallery = [];
@@ -227,7 +227,8 @@ const getFirstImageFromFolder = (folder) => {
         'zaghouan': 'images/zaghouan/thumbnail.jpg',
         'l\'oiseau_a_sidibou': 'images/l\'oiseau_a_sidibou/IMG_7525.jpeg',
         'home': 'images/zaghouan/thumbnail.jpg',
-        'the_indian_lady': 'images/the_indian_lady/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg'
+        'the_indian_lady': 'images/the_indian_lady/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg',
+        'manifestation': 'images/manifestation/aa03cfcc-1b79-4982-8685-50273a0d09ab.jpeg'
     };
     
     return folderImages[folder] || placeholderImage;
@@ -317,7 +318,8 @@ Bakhta - Jougar - zaghouan - Tunisie juin 2024`,
 وعاد إليك؟ إنّهُ من وجد فيك حريّته."
 جلال الدين الرومي`,
     'the_indian_lady': `لا يوجد أسهل من الكراهية والبغضاء، أما الحُبّ، فهو يحتاج نفساً عظيمة
-― شمس التبريزي`
+― شمس التبريزي`,
+    'manifestation': `Manifestation contre l'arrestation de l'avocat Ahmed Souab - 25 Avril 2025`
 };
 
 // Function to get caption for a folder

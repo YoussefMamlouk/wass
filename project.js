@@ -107,7 +107,8 @@ SPECTACLE DE L'AMOUR ET LA PAIX`,
 – شمس التبريزي
 Bakhta - Jougar - zaghouan - Tunisie juin 2024`,
     'the_indian_lady': `لا يوجد أسهل من الكراهية والبغضاء، أما الحُبّ، فهو يحتاج نفساً عظيمة
-― شمس التبريزي`
+― شمس التبريزي`,
+    'manifestation': `Manifestation contre l'arrestation de l'avocat Ahmed Souab - 25 Avril 2025`
 };
 
 // Function to get caption for a folder
@@ -214,6 +215,20 @@ const fallbackProjectImages = {
     ],
     'the_indian_lady': [
         'images/the_indian_lady/e3bbb601-5339-4072-b997-ed5dcd93c70c.jpeg'
+    ],
+    'manifestation': [
+        'images/manifestation/aa03cfcc-1b79-4982-8685-50273a0d09ab.jpeg',
+        'images/manifestation/91945591-fd36-421c-8545-cfe3e6c6ad98.jpeg',
+        'images/manifestation/a76a16db-2119-4a84-96bb-793b0f751471.jpeg',
+        'images/manifestation/edd20556-dbad-44cb-bc62-c4eeb1066399.jpeg',
+        'images/manifestation/6ec47c7d-38b1-4f04-8fd6-8cb255381af6.jpeg',
+        'images/manifestation/a26e5365-95ea-4ffd-a381-d51527f2fb19.jpeg',
+        'images/manifestation/ce70fc16-cd2b-491f-9757-f49500725b96.jpeg',
+        'images/manifestation/affb46d9-6644-463e-adc6-0336fffcb38d.jpeg',
+        'images/manifestation/876a7513-ed89-4610-a0f6-b8e11e9bc6d9.jpeg',
+        'images/manifestation/5557bfab-0c7d-42db-b573-eeace6f6724c.jpeg',
+        'images/manifestation/bc3e3287-4e3b-46f6-a5af-7c6995b76c32.jpeg',
+        'images/manifestation/19cf2af9-e35f-480e-a3b4-dab07a3e9cd7.jpeg'
     ]
 };
 
