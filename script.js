@@ -439,13 +439,33 @@ menuToggle.addEventListener('click', (e) => {
 // Close mobile menu when clicking a link
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        if (nav.classList.contains('active')) {
-            closeMenu();
-        }
+        const href = link.getAttribute('href');
         
-        // Update active link
-        navLinks.forEach(navLink => navLink.classList.remove('active'));
-        link.classList.add('active');
+        // Only handle hash links (not external links)
+        if (href && href.startsWith('#')) {
+            e.preventDefault();
+            
+            // Close mobile menu if it's open
+            if (nav.classList.contains('active')) {
+                closeMenu();
+            }
+            
+            // Update active link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            link.classList.add('active');
+            
+            // Smooth scroll to the target section
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                // Add a small delay to ensure menu closes first
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }, nav.classList.contains('active') ? 300 : 0);
+            }
+        }
     });
 });
 
@@ -1177,8 +1197,13 @@ if (contactForm) {
     });
 }
 
-// Smooth scrolling for navigation links
+// Smooth scrolling for navigation links (excluding nav menu links which are handled above)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Skip navigation menu links as they're handled specifically above
+    if (anchor.closest('nav')) {
+        return;
+    }
+    
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
         
