@@ -67,7 +67,7 @@ async function loadNewsArticles() {
             {
                 id: 'la_tunisie_postmoderne',
                 title: 'J-1 : La Tunisie Post Moderne',
-                date: '31 Mai 2024',
+                date: '31 Mai 2025',
                 location: 'Église Sainte Croix de Tunis, Médina',
                 content: `Il s'agit d'un projet artistique qui réunit 28 Photographes Tunisiens avec des parcours et univers différents autour de 53 œuvres photographiques numériques. Vous allez découvrir une Tunisie sous ses différentes facettes avec des regards aussi différents que le changement d'un pays qui se questionne, se cherche, se déconstruit…`,
                 images: [
